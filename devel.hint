@@ -1,5 +1,5 @@
 category: X11
-requires: cygwin libXau-devel libXdmcp-devel libpthread-stubs
+requires: cygwin libXau-devel libXdmcp-devel libgetaddrinfo-devel libpthread-stubs
 external-source: libxcb
 sdesc: "X Protocol C-Language Bindings (development)"
 ldesc: "libxcb provides an interface to the X Window System protocol,
