@@ -1,0 +1,1875 @@
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x config.h.in -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x config.rpath -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/libxcb-1.0/Makefile.am src/libxcb-1.0/Makefile.am
+--- origsrc/libxcb-1.0/Makefile.am	2006-11-23 01:38:00.000000000 -0600
++++ src/libxcb-1.0/Makefile.am	2007-08-16 07:04:50.421875000 -0500
+@@ -1,3 +1,5 @@
++ACLOCAL_AMFLAGS = -I m4
++
+ SUBDIRS=src tests doc
+ 
+ pkgconfigdir = $(libdir)/pkgconfig
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x config.h.in -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x config.rpath -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/libxcb-1.0/configure.ac src/libxcb-1.0/configure.ac
+--- origsrc/libxcb-1.0/configure.ac	2006-11-23 09:33:01.000000000 -0600
++++ src/libxcb-1.0/configure.ac	2007-08-16 07:04:50.421875000 -0500
+@@ -13,8 +13,10 @@
+ 
+ AC_CONFIG_HEADERS([src/config.h])
+ 
+-AC_PROG_LIBTOOL
++AC_GNU_SOURCE
+ AC_PROG_CC
++AM_PROG_CC_C_O
++AC_PROG_LIBTOOL
+ 
+ AC_PATH_PROG(XSLTPROC, xsltproc, no)
+ if test "$XSLTPROC" = "no"; then
+@@ -55,7 +57,9 @@
+ AC_SUBST(XCBPROTO_XCBINCLUDEDIR)
+ 
+ AC_HEADER_STDC
+-AC_SEARCH_LIBS(getaddrinfo, socket)
++AC_CONFIG_LIBOBJ_DIR([lib])
++gl_INET_NTOP
++gl_GETADDRINFO
+ AC_SEARCH_LIBS(connect, socket)
+ 
+ xcbincludedir='${includedir}/xcb'
+@@ -83,6 +87,7 @@
+ AM_CHECK_DOXYGEN()
+ 
+ AC_CONFIG_FILES([Makefile src/Makefile tests/Makefile doc/Makefile])
++AC_CONFIG_FILES([lib/Makefile])
+ AC_CONFIG_FILES([xcb.pc xcb-xlib.pc xcb-composite.pc xcb-damage.pc xcb-dpms.pc xcb-glx.pc xcb-randr.pc xcb-record.pc xcb-render.pc xcb-res.pc xcb-screensaver.pc xcb-shape.pc xcb-shm.pc xcb-sync.pc xcb-xevie.pc xcb-xf86dri.pc xcb-xfixes.pc xcb-xinerama.pc xcb-xprint.pc xcb-xtest.pc xcb-xv.pc xcb-xvmc.pc])
+ AC_CONFIG_FILES([doc/xcb.doxygen])
+ 
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x config.h.in -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x config.rpath -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/libxcb-1.0/lib/Makefile.am src/libxcb-1.0/lib/Makefile.am
+--- origsrc/libxcb-1.0/lib/Makefile.am	1969-12-31 18:00:00.000000000 -0600
++++ src/libxcb-1.0/lib/Makefile.am	2007-08-16 07:04:50.437500000 -0500
+@@ -0,0 +1,4 @@
++noinst_LTLIBRARIES = libcompat.la
++
++libcompat_la_SOURCES =
++libcompat_la_LIBADD = $(LTLIBOBJS)
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x config.h.in -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x config.rpath -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/libxcb-1.0/lib/gai_strerror.c src/libxcb-1.0/lib/gai_strerror.c
+--- origsrc/libxcb-1.0/lib/gai_strerror.c	1969-12-31 18:00:00.000000000 -0600
++++ src/libxcb-1.0/lib/gai_strerror.c	2007-08-16 07:04:50.437500000 -0500
+@@ -0,0 +1,78 @@
++/* Copyright (C) 1997, 2001, 2002, 2004, 2005, 2006 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++   Contributed by Philip Blundell <pjb27@cam.ac.uk>, 1997.
++
++   This program is free software; you can redistribute it and/or modify
++   it under the terms of the GNU General Public License as published by
++   the Free Software Foundation; either version 2, or (at your option)
++   any later version.
++
++   This program is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++   GNU General Public License for more details.
++
++   You should have received a copy of the GNU General Public License
++   along with this program; if not, write to the Free Software Foundation,
++   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
++
++#ifndef _LIBC
++# include <config.h>
++# include "getaddrinfo.h"
++#endif
++
++#include <stdio.h>
++#ifdef HAVE_NETDB_H
++# include <netdb.h>
++#endif
++
++#ifdef _LIBC
++# include <libintl.h>
++#else
++# include "gettext.h"
++# define _(String) gettext (String)
++# define N_(String) String
++#endif
++
++static struct
++  {
++    int code;
++    const char *msg;
++  }
++values[] =
++  {
++    { EAI_ADDRFAMILY, N_("Address family for hostname not supported") },
++    { EAI_AGAIN, N_("Temporary failure in name resolution") },
++    { EAI_BADFLAGS, N_("Bad value for ai_flags") },
++    { EAI_FAIL, N_("Non-recoverable failure in name resolution") },
++    { EAI_FAMILY, N_("ai_family not supported") },
++    { EAI_MEMORY, N_("Memory allocation failure") },
++    { EAI_NODATA, N_("No address associated with hostname") },
++    { EAI_NONAME, N_("Name or service not known") },
++    { EAI_SERVICE, N_("Servname not supported for ai_socktype") },
++    { EAI_SOCKTYPE, N_("ai_socktype not supported") },
++    { EAI_SYSTEM, N_("System error") },
++    { EAI_OVERFLOW, N_("Argument buffer too small") },
++#ifdef __USE_GNU
++    { EAI_INPROGRESS, N_("Processing request in progress") },
++    { EAI_CANCELED, N_("Request canceled") },
++    { EAI_NOTCANCELED, N_("Request not canceled") },
++    { EAI_ALLDONE, N_("All requests done") },
++    { EAI_INTR, N_("Interrupted by a signal") },
++    { EAI_IDN_ENCODE, N_("Parameter string not correctly encoded") }
++#endif
++  };
++
++const char *
++gai_strerror (int code)
++{
++  size_t i;
++  for (i = 0; i < sizeof (values) / sizeof (values[0]); ++i)
++    if (values[i].code == code)
++      return _(values[i].msg);
++
++  return _("Unknown error");
++}
++#ifdef _LIBC
++libc_hidden_def (gai_strerror)
++#endif
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x config.h.in -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x config.rpath -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/libxcb-1.0/lib/getaddrinfo.c src/libxcb-1.0/lib/getaddrinfo.c
+--- origsrc/libxcb-1.0/lib/getaddrinfo.c	1969-12-31 18:00:00.000000000 -0600
++++ src/libxcb-1.0/lib/getaddrinfo.c	2007-08-16 07:04:50.453125000 -0500
+@@ -0,0 +1,418 @@
++/* Get address information (partial implementation).
++   Copyright (C) 1997, 2001, 2002, 2004, 2005, 2006, 2007 Free Software
++   Foundation, Inc.
++   Contributed by Simon Josefsson <simon@josefsson.org>.
++
++   This program is free software; you can redistribute it and/or modify
++   it under the terms of the GNU General Public License as published by
++   the Free Software Foundation; either version 2, or (at your option)
++   any later version.
++
++   This program is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++   GNU General Public License for more details.
++
++   You should have received a copy of the GNU General Public License
++   along with this program; if not, write to the Free Software Foundation,
++   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
++
++#include <config.h>
++
++#include "getaddrinfo.h"
++
++#if HAVE_NETINET_IN_H
++# include <netinet/in.h>
++#endif
++
++/* Get calloc. */
++#include <stdlib.h>
++
++/* Get memcpy, strdup. */
++#include <string.h>
++
++/* Get snprintf. */
++#include <stdio.h>
++
++#include <stdbool.h>
++
++#include "gettext.h"
++#define _(String) gettext (String)
++#define N_(String) String
++
++#include "inet_ntop.h"
++
++/* BeOS has AF_INET, but not PF_INET.  */
++#ifndef PF_INET
++# define PF_INET AF_INET
++#endif
++/* BeOS also lacks PF_UNSPEC.  */
++#ifndef PF_UNSPEC
++# define PF_UNSPEC 0
++#endif
++
++#if defined _WIN32 || defined __WIN32__
++# define WIN32_NATIVE
++#endif
++
++#ifdef WIN32_NATIVE
++typedef int (WSAAPI *getaddrinfo_func) (const char*, const char*,
++					const struct addrinfo*,
++					struct addrinfo**);
++typedef void (WSAAPI *freeaddrinfo_func) (struct addrinfo*);
++typedef int (WSAAPI *getnameinfo_func) (const struct sockaddr*,
++					socklen_t, char*, DWORD,
++					char*, DWORD, int);
++
++static getaddrinfo_func getaddrinfo_ptr = NULL;
++static freeaddrinfo_func freeaddrinfo_ptr = NULL;
++static getnameinfo_func getnameinfo_ptr = NULL;
++
++static int
++use_win32_p (void)
++{
++  static int done = 0;
++  HMODULE h;
++
++  if (done)
++    return getaddrinfo_ptr ? 1 : 0;
++
++  done = 1;
++
++  h = GetModuleHandle ("ws2_32.dll");
++
++  if (h)
++    {
++      getaddrinfo_ptr = (getaddrinfo_func) GetProcAddress (h, "getaddrinfo");
++      freeaddrinfo_ptr = (freeaddrinfo_func) GetProcAddress (h, "freeaddrinfo");
++      getnameinfo_ptr = (getnameinfo_func) GetProcAddress (h, "getnameinfo");
++    }
++
++  /* If either is missing, something is odd. */
++  if (!getaddrinfo_ptr || !freeaddrinfo_ptr || !getnameinfo_ptr)
++    {
++      getaddrinfo_ptr = NULL;
++      freeaddrinfo_ptr = NULL;
++      getnameinfo_ptr = NULL;
++      return 0;
++    }
++
++  return 1;
++}
++#endif
++
++static inline bool
++validate_family (int family)
++{
++  /* FIXME: Support more families. */
++#if HAVE_IPV4
++     if (family == PF_INET)
++       return true;
++#endif
++#if HAVE_IPV6
++     if (family == PF_INET6)
++       return true;
++#endif
++     if (family == PF_UNSPEC)
++       return true;
++     return false;
++}
++
++/* Translate name of a service location and/or a service name to set of
++   socket addresses. */
++int
++getaddrinfo (const char *restrict nodename,
++	     const char *restrict servname,
++	     const struct addrinfo *restrict hints,
++	     struct addrinfo **restrict res)
++{
++  struct addrinfo *tmp;
++  int port = 0;
++  struct hostent *he;
++  void *storage;
++  size_t size;
++#if HAVE_IPV6
++  struct v6_pair {
++    struct addrinfo addrinfo;
++    struct sockaddr_in6 sockaddr_in6;
++  };
++#endif
++#if HAVE_IPV4
++  struct v4_pair {
++    struct addrinfo addrinfo;
++    struct sockaddr_in sockaddr_in;
++  };
++#endif
++
++#ifdef WIN32_NATIVE
++  if (use_win32_p ())
++    return getaddrinfo_ptr (nodename, servname, hints, res);
++#endif
++
++  if (hints && (hints->ai_flags & ~(AI_CANONNAME|AI_PASSIVE)))
++    /* FIXME: Support more flags. */
++    return EAI_BADFLAGS;
++
++  if (hints && !validate_family (hints->ai_family))
++    return EAI_FAMILY;
++
++  if (hints &&
++      hints->ai_socktype != SOCK_STREAM && hints->ai_socktype != SOCK_DGRAM)
++    /* FIXME: Support other socktype. */
++    return EAI_SOCKTYPE; /* FIXME: Better return code? */
++
++  if (!nodename)
++    {
++      if (!(hints->ai_flags & AI_PASSIVE))
++	return EAI_NONAME;
++
++#ifdef HAVE_IPV6
++      nodename = (hints->ai_family == AF_INET6) ? "::" : "0.0.0.0";
++#else
++      nodename = "0.0.0.0";
++#endif
++    }
++
++  if (servname)
++    {
++      struct servent *se = NULL;
++      const char *proto =
++	(hints && hints->ai_socktype == SOCK_DGRAM) ? "udp" : "tcp";
++
++      if (hints == NULL || !(hints->ai_flags & AI_NUMERICSERV))
++	/* FIXME: Use getservbyname_r if available. */
++	se = getservbyname (servname, proto);
++
++      if (!se)
++	{
++	  char *c;
++	  if (!(*servname >= '0' && *servname <= '9'))
++	    return EAI_NONAME;
++	  port = strtoul (servname, &c, 10);
++	  if (*c || port > 0xffff)
++	    return EAI_NONAME;
++	  port = htons (port);
++	}
++      else
++	port = se->s_port;
++    }
++
++  /* FIXME: Use gethostbyname_r if available. */
++  he = gethostbyname (nodename);
++  if (!he || he->h_addr_list[0] == NULL)
++    return EAI_NONAME;
++
++  switch (he->h_addrtype)
++    {
++#if HAVE_IPV6
++    case PF_INET6:
++      size = sizeof (struct v6_pair);
++      break;
++#endif
++
++#if HAVE_IPV4
++    case PF_INET:
++      size = sizeof (struct v4_pair);
++      break;
++#endif
++
++    default:
++      return EAI_NODATA;
++    }
++
++  storage = calloc (1, size);
++  if (!storage)
++    return EAI_MEMORY;
++
++  switch (he->h_addrtype)
++    {
++#if HAVE_IPV6
++    case PF_INET6:
++      {
++	struct v6_pair *p = storage;
++	struct sockaddr_in6 *sinp = &p->sockaddr_in6;
++	tmp = &p->addrinfo;
++
++	if (port)
++	  sinp->sin6_port = port;
++
++	if (he->h_length != sizeof (sinp->sin6_addr))
++	  {
++	    free (storage);
++	    return EAI_SYSTEM; /* FIXME: Better return code?  Set errno? */
++	  }
++
++	memcpy (&sinp->sin6_addr, he->h_addr_list[0], sizeof sinp->sin6_addr);
++
++	tmp->ai_addr = (struct sockaddr *) sinp;
++	tmp->ai_addrlen = sizeof *sinp;
++      }
++      break;
++#endif
++
++#if HAVE_IPV4
++    case PF_INET:
++      {
++	struct v4_pair *p = storage;
++	struct sockaddr_in *sinp = &p->sockaddr_in;
++	tmp = &p->addrinfo;
++
++	if (port)
++	  sinp->sin_port = port;
++
++	if (he->h_length != sizeof (sinp->sin_addr))
++	  {
++	    free (storage);
++	    return EAI_SYSTEM; /* FIXME: Better return code?  Set errno? */
++	  }
++
++	memcpy (&sinp->sin_addr, he->h_addr_list[0], sizeof sinp->sin_addr);
++
++	tmp->ai_addr = (struct sockaddr *) sinp;
++	tmp->ai_addrlen = sizeof *sinp;
++      }
++      break;
++#endif
++
++    default:
++      free (storage);
++      return EAI_NODATA;
++    }
++
++  if (hints && hints->ai_flags & AI_CANONNAME)
++    {
++      const char *cn;
++      if (he->h_name)
++	cn = he->h_name;
++      else
++	cn = nodename;
++
++      tmp->ai_canonname = strdup (cn);
++      if (!tmp->ai_canonname)
++	{
++	  free (storage);
++	  return EAI_MEMORY;
++	}
++    }
++
++  tmp->ai_protocol = (hints) ? hints->ai_protocol : 0;
++  tmp->ai_socktype = (hints) ? hints->ai_socktype : 0;
++  tmp->ai_addr->sa_family = he->h_addrtype;
++  tmp->ai_family = he->h_addrtype;
++
++  /* FIXME: If more than one address, create linked list of addrinfo's. */
++
++  *res = tmp;
++
++  return 0;
++}
++
++/* Free `addrinfo' structure AI including associated storage.  */
++void
++freeaddrinfo (struct addrinfo *ai)
++{
++#ifdef WIN32_NATIVE
++  if (use_win32_p ())
++    {
++      freeaddrinfo_ptr (ai);
++      return;
++    }
++#endif
++
++  while (ai)
++    {
++      struct addrinfo *cur;
++
++      cur = ai;
++      ai = ai->ai_next;
++
++      if (cur->ai_canonname) free (cur->ai_canonname);
++      free (cur);
++    }
++}
++
++int getnameinfo(const struct sockaddr *restrict sa, socklen_t salen,
++		char *restrict node, socklen_t nodelen,
++		char *restrict service, socklen_t servicelen,
++		int flags)
++{
++#ifdef WIN32_NATIVE
++  if (use_win32_p ())
++    return getnameinfo_ptr (sa, salen, node, nodelen,
++			    service, servicelen, flags);
++#endif
++
++  /* FIXME: Support other flags. */
++  if ((node && nodelen > 0 && !(flags & NI_NUMERICHOST)) ||
++      (service && servicelen > 0 && !(flags & NI_NUMERICHOST)) ||
++      (flags & ~(NI_NUMERICHOST|NI_NUMERICSERV)))
++    return EAI_BADFLAGS;
++
++  if (sa == NULL || salen < sizeof (sa->sa_family))
++    return EAI_FAMILY;
++
++  switch (sa->sa_family)
++    {
++#if HAVE_IPV4
++    case AF_INET:
++      if (salen < sizeof (struct sockaddr_in))
++	return EAI_FAMILY;
++      break;
++#endif
++#if HAVE_IPV6
++    case AF_INET6:
++      if (salen < sizeof (struct sockaddr_in6))
++	return EAI_FAMILY;
++      break;
++#endif
++    default:
++      return EAI_FAMILY;
++    }
++
++  if (node && nodelen > 0 && flags & NI_NUMERICHOST)
++    {
++      switch (sa->sa_family)
++	{
++#if HAVE_IPV4
++	case AF_INET:
++	  if (!inet_ntop (AF_INET,
++			  &(((const struct sockaddr_in *) sa)->sin_addr),
++			  node, nodelen))
++	    return EAI_SYSTEM;
++	  break;
++#endif
++
++#if HAVE_IPV6
++	case AF_INET6:
++	  if (!inet_ntop (AF_INET6,
++			  &(((const struct sockaddr_in6 *) sa)->sin6_addr),
++			  node, nodelen))
++	    return EAI_SYSTEM;
++	  break;
++#endif
++
++	default:
++	  return EAI_FAMILY;
++	}
++    }
++
++  if (service && servicelen > 0 && flags & NI_NUMERICSERV)
++    switch (sa->sa_family)
++      {
++#if HAVE_IPV4
++      case AF_INET:
++#endif
++#if HAVE_IPV6
++      case AF_INET6:
++#endif
++	{
++	  unsigned short int port
++	    = ntohs (((const struct sockaddr_in *) sa)->sin_port);
++	  if (servicelen <= snprintf (service, servicelen, "%u", port))
++	    return EAI_OVERFLOW;
++	}
++	break;
++      }
++
++  return 0;
++}
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x config.h.in -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x config.rpath -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/libxcb-1.0/lib/getaddrinfo.h src/libxcb-1.0/lib/getaddrinfo.h
+--- origsrc/libxcb-1.0/lib/getaddrinfo.h	1969-12-31 18:00:00.000000000 -0600
++++ src/libxcb-1.0/lib/getaddrinfo.h	2007-08-16 07:04:50.484375000 -0500
+@@ -0,0 +1,155 @@
++/* Get address information.
++   Copyright (C) 1996-2002, 2003, 2004, 2005, 2006
++                 Free Software Foundation, Inc.
++   Contributed by Simon Josefsson <simon@josefsson.org>.
++
++   This program is free software; you can redistribute it and/or modify
++   it under the terms of the GNU General Public License as published by
++   the Free Software Foundation; either version 2, or (at your option)
++   any later version.
++
++   This program is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++   GNU General Public License for more details.
++
++   You should have received a copy of the GNU General Public License
++   along with this program; if not, write to the Free Software Foundation,
++   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
++
++#ifndef GETADDRINFO_H
++#define GETADDRINFO_H
++
++/* sys/socket.h in i386-unknown-freebsd4.10 and
++   powerpc-apple-darwin5.5 require sys/types.h, so include it first.
++   Then we'll also get 'socklen_t' and 'struct sockaddr' which are
++   used below. */
++#include <sys/types.h>
++/* Get all getaddrinfo related declarations, if available.  */
++#include <sys/socket.h>
++#ifdef HAVE_NETDB_H
++# include <netdb.h>
++#endif
++
++#ifndef HAVE_STRUCT_ADDRINFO
++
++/* Structure to contain information about address of a service provider.  */
++struct addrinfo
++{
++  int ai_flags;			/* Input flags.  */
++  int ai_family;		/* Protocol family for socket.  */
++  int ai_socktype;		/* Socket type.  */
++  int ai_protocol;		/* Protocol for socket.  */
++  socklen_t ai_addrlen;		/* Length of socket address.  */
++  struct sockaddr *ai_addr;	/* Socket address for socket.  */
++  char *ai_canonname;		/* Canonical name for service location.  */
++  struct addrinfo *ai_next;	/* Pointer to next in list.  */
++};
++#endif
++
++/* Possible values for `ai_flags' field in `addrinfo' structure.  */
++#ifndef AI_PASSIVE
++# define AI_PASSIVE	0x0001	/* Socket address is intended for `bind'.  */
++#endif
++#ifndef AI_CANONNAME
++# define AI_CANONNAME	0x0002	/* Request for canonical name.  */
++#endif
++#ifndef AI_NUMERICSERV
++# define AI_NUMERICSERV	0x0400	/* Don't use name resolution.  */
++#endif
++
++#if 0
++/* The commented out definitions below are not yet implemented in the
++   GNULIB getaddrinfo() replacement, so are not yet needed and may, in fact,
++   cause conflicts on systems with a getaddrinfo() function which does not
++   define them.
++
++   If they are restored, be sure to protect the definitions with #ifndef.  */
++#define AI_NUMERICHOST	0x0004	/* Don't use name resolution.  */
++#define AI_V4MAPPED	0x0008	/* IPv4 mapped addresses are acceptable.  */
++#define AI_ALL		0x0010	/* Return IPv4 mapped and IPv6 addresses.  */
++#define AI_ADDRCONFIG	0x0020	/* Use configuration of this host to choose
++				   returned address type..  */
++#endif /* 0 */
++
++/* Error values for `getaddrinfo' function.  */
++#ifndef EAI_BADFLAGS
++# define EAI_BADFLAGS	  -1	/* Invalid value for `ai_flags' field.  */
++# define EAI_NONAME	  -2	/* NAME or SERVICE is unknown.  */
++# define EAI_AGAIN	  -3	/* Temporary failure in name resolution.  */
++# define EAI_FAIL	  -4	/* Non-recoverable failure in name res.  */
++# define EAI_NODATA	  -5	/* No address associated with NAME.  */
++# define EAI_FAMILY	  -6	/* `ai_family' not supported.  */
++# define EAI_SOCKTYPE	  -7	/* `ai_socktype' not supported.  */
++# define EAI_SERVICE	  -8	/* SERVICE not supported for `ai_socktype'.  */
++# define EAI_MEMORY	  -10	/* Memory allocation failure.  */
++#endif
++#ifndef EAI_OVERFLOW
++/* Not defined on mingw32. */
++# define EAI_OVERFLOW	  -12	/* Argument buffer overflow.  */
++#endif
++#ifndef EAI_ADDRFAMILY
++/* Not defined on mingw32. */
++# define EAI_ADDRFAMILY  -9	/* Address family for NAME not supported.  */
++#endif
++#ifndef EAI_SYSTEM
++/* Not defined on mingw32. */
++# define EAI_SYSTEM	  -11	/* System error returned in `errno'.  */
++#endif
++
++#ifdef __USE_GNU
++# ifndef EAI_INPROGRESS
++#  define EAI_INPROGRESS	-100	/* Processing request in progress.  */
++#  define EAI_CANCELED		-101	/* Request canceled.  */
++#  define EAI_NOTCANCELED	-102	/* Request not canceled.  */
++#  define EAI_ALLDONE		-103	/* All requests done.  */
++#  define EAI_INTR		-104	/* Interrupted by a signal.  */
++#  define EAI_IDN_ENCODE	-105	/* IDN encoding failed.  */
++# endif
++#endif
++
++#if !HAVE_DECL_GETADDRINFO
++/* Translate name of a service location and/or a service name to set of
++   socket addresses.
++   For more details, see the POSIX:2001 specification
++   <http://www.opengroup.org/susv3xsh/getaddrinfo.html>.  */
++extern int getaddrinfo (const char *restrict nodename,
++			const char *restrict servname,
++			const struct addrinfo *restrict hints,
++			struct addrinfo **restrict res);
++#endif
++
++#if !HAVE_DECL_FREEADDRINFO
++/* Free `addrinfo' structure AI including associated storage.
++   For more details, see the POSIX:2001 specification
++   <http://www.opengroup.org/susv3xsh/getaddrinfo.html>.  */
++extern void freeaddrinfo (struct addrinfo *ai);
++#endif
++
++#if !HAVE_DECL_GAI_STRERROR
++/* Convert error return from getaddrinfo() to a string.
++   For more details, see the POSIX:2001 specification
++   <http://www.opengroup.org/susv3xsh/gai_strerror.html>.  */
++extern const char *gai_strerror (int ecode);
++#endif
++
++#if !HAVE_DECL_GETNAMEINFO
++/* Convert socket address to printable node and service names.
++   For more details, see the POSIX:2001 specification
++   <http://www.opengroup.org/susv3xsh/getnameinfo.html>.  */
++extern int getnameinfo(const struct sockaddr *restrict sa, socklen_t salen,
++		       char *restrict node, socklen_t nodelen,
++		       char *restrict service, socklen_t servicelen,
++		       int flags);
++
++#endif
++
++/* Possible flags for getnameinfo.  */
++#ifndef NI_NUMERICHOST
++# define NI_NUMERICHOST 1
++#endif
++#ifndef NI_NUMERICSERV
++# define NI_NUMERICSERV 2
++#endif
++
++#endif /* GETADDRINFO_H */
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x config.h.in -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x config.rpath -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/libxcb-1.0/lib/gettext.h src/libxcb-1.0/lib/gettext.h
+--- origsrc/libxcb-1.0/lib/gettext.h	1969-12-31 18:00:00.000000000 -0600
++++ src/libxcb-1.0/lib/gettext.h	2007-08-16 07:04:50.515625000 -0500
+@@ -0,0 +1,270 @@
++/* Convenience header for conditional use of GNU <libintl.h>.
++   Copyright (C) 1995-1998, 2000-2002, 2004-2006 Free Software Foundation, Inc.
++
++   This program is free software; you can redistribute it and/or modify
++   it under the terms of the GNU General Public License as published by
++   the Free Software Foundation; either version 2, or (at your option)
++   any later version.
++
++   This program is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++   GNU General Public License for more details.
++
++   You should have received a copy of the GNU General Public License along
++   with this program; if not, write to the Free Software Foundation,
++   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
++
++#ifndef _LIBGETTEXT_H
++#define _LIBGETTEXT_H 1
++
++/* NLS can be disabled through the configure --disable-nls option.  */
++#if ENABLE_NLS
++
++/* Get declarations of GNU message catalog functions.  */
++# include <libintl.h>
++
++/* You can set the DEFAULT_TEXT_DOMAIN macro to specify the domain used by
++   the gettext() and ngettext() macros.  This is an alternative to calling
++   textdomain(), and is useful for libraries.  */
++# ifdef DEFAULT_TEXT_DOMAIN
++#  undef gettext
++#  define gettext(Msgid) \
++     dgettext (DEFAULT_TEXT_DOMAIN, Msgid)
++#  undef ngettext
++#  define ngettext(Msgid1, Msgid2, N) \
++     dngettext (DEFAULT_TEXT_DOMAIN, Msgid1, Msgid2, N)
++# endif
++
++#else
++
++/* Solaris /usr/include/locale.h includes /usr/include/libintl.h, which
++   chokes if dcgettext is defined as a macro.  So include it now, to make
++   later inclusions of <locale.h> a NOP.  We don't include <libintl.h>
++   as well because people using "gettext.h" will not include <libintl.h>,
++   and also including <libintl.h> would fail on SunOS 4, whereas <locale.h>
++   is OK.  */
++#if defined(__sun)
++# include <locale.h>
++#endif
++
++/* Many header files from the libstdc++ coming with g++ 3.3 or newer include
++   <libintl.h>, which chokes if dcgettext is defined as a macro.  So include
++   it now, to make later inclusions of <libintl.h> a NOP.  */
++#if defined(__cplusplus) && defined(__GNUG__) && (__GNUC__ >= 3)
++# include <cstdlib>
++# if (__GLIBC__ >= 2) || _GLIBCXX_HAVE_LIBINTL_H
++#  include <libintl.h>
++# endif
++#endif
++
++/* Disabled NLS.
++   The casts to 'const char *' serve the purpose of producing warnings
++   for invalid uses of the value returned from these functions.
++   On pre-ANSI systems without 'const', the config.h file is supposed to
++   contain "#define const".  */
++# define gettext(Msgid) ((const char *) (Msgid))
++# define dgettext(Domainname, Msgid) ((void) (Domainname), gettext (Msgid))
++# define dcgettext(Domainname, Msgid, Category) \
++    ((void) (Category), dgettext (Domainname, Msgid))
++# define ngettext(Msgid1, Msgid2, N) \
++    ((N) == 1 \
++     ? ((void) (Msgid2), (const char *) (Msgid1)) \
++     : ((void) (Msgid1), (const char *) (Msgid2)))
++# define dngettext(Domainname, Msgid1, Msgid2, N) \
++    ((void) (Domainname), ngettext (Msgid1, Msgid2, N))
++# define dcngettext(Domainname, Msgid1, Msgid2, N, Category) \
++    ((void) (Category), dngettext(Domainname, Msgid1, Msgid2, N))
++# define textdomain(Domainname) ((const char *) (Domainname))
++# define bindtextdomain(Domainname, Dirname) \
++    ((void) (Domainname), (const char *) (Dirname))
++# define bind_textdomain_codeset(Domainname, Codeset) \
++    ((void) (Domainname), (const char *) (Codeset))
++
++#endif
++
++/* A pseudo function call that serves as a marker for the automated
++   extraction of messages, but does not call gettext().  The run-time
++   translation is done at a different place in the code.
++   The argument, String, should be a literal string.  Concatenated strings
++   and other string expressions won't work.
++   The macro's expansion is not parenthesized, so that it is suitable as
++   initializer for static 'char[]' or 'const char[]' variables.  */
++#define gettext_noop(String) String
++
++/* The separator between msgctxt and msgid in a .mo file.  */
++#define GETTEXT_CONTEXT_GLUE "\004"
++
++/* Pseudo function calls, taking a MSGCTXT and a MSGID instead of just a
++   MSGID.  MSGCTXT and MSGID must be string literals.  MSGCTXT should be
++   short and rarely need to change.
++   The letter 'p' stands for 'particular' or 'special'.  */
++#ifdef DEFAULT_TEXT_DOMAIN
++# define pgettext(Msgctxt, Msgid) \
++   pgettext_aux (DEFAULT_TEXT_DOMAIN, Msgctxt GETTEXT_CONTEXT_GLUE Msgid, Msgid, LC_MESSAGES)
++#else
++# define pgettext(Msgctxt, Msgid) \
++   pgettext_aux (NULL, Msgctxt GETTEXT_CONTEXT_GLUE Msgid, Msgid, LC_MESSAGES)
++#endif
++#define dpgettext(Domainname, Msgctxt, Msgid) \
++  pgettext_aux (Domainname, Msgctxt GETTEXT_CONTEXT_GLUE Msgid, Msgid, LC_MESSAGES)
++#define dcpgettext(Domainname, Msgctxt, Msgid, Category) \
++  pgettext_aux (Domainname, Msgctxt GETTEXT_CONTEXT_GLUE Msgid, Msgid, Category)
++#ifdef DEFAULT_TEXT_DOMAIN
++# define npgettext(Msgctxt, Msgid, MsgidPlural, N) \
++   npgettext_aux (DEFAULT_TEXT_DOMAIN, Msgctxt GETTEXT_CONTEXT_GLUE Msgid, Msgid, MsgidPlural, N, LC_MESSAGES)
++#else
++# define npgettext(Msgctxt, Msgid, MsgidPlural, N) \
++   npgettext_aux (NULL, Msgctxt GETTEXT_CONTEXT_GLUE Msgid, Msgid, MsgidPlural, N, LC_MESSAGES)
++#endif
++#define dnpgettext(Domainname, Msgctxt, Msgid, MsgidPlural, N) \
++  npgettext_aux (Domainname, Msgctxt GETTEXT_CONTEXT_GLUE Msgid, Msgid, MsgidPlural, N, LC_MESSAGES)
++#define dcnpgettext(Domainname, Msgctxt, Msgid, MsgidPlural, N, Category) \
++  npgettext_aux (Domainname, Msgctxt GETTEXT_CONTEXT_GLUE Msgid, Msgid, MsgidPlural, N, Category)
++
++#ifdef __GNUC__
++__inline
++#else
++#ifdef __cplusplus
++inline
++#endif
++#endif
++static const char *
++pgettext_aux (const char *domain,
++	      const char *msg_ctxt_id, const char *msgid,
++	      int category)
++{
++  const char *translation = dcgettext (domain, msg_ctxt_id, category);
++  if (translation == msg_ctxt_id)
++    return msgid;
++  else
++    return translation;
++}
++
++#ifdef __GNUC__
++__inline
++#else
++#ifdef __cplusplus
++inline
++#endif
++#endif
++static const char *
++npgettext_aux (const char *domain,
++	       const char *msg_ctxt_id, const char *msgid,
++	       const char *msgid_plural, unsigned long int n,
++	       int category)
++{
++  const char *translation =
++    dcngettext (domain, msg_ctxt_id, msgid_plural, n, category);
++  if (translation == msg_ctxt_id || translation == msgid_plural)
++    return (n == 1 ? msgid : msgid_plural);
++  else
++    return translation;
++}
++
++/* The same thing extended for non-constant arguments.  Here MSGCTXT and MSGID
++   can be arbitrary expressions.  But for string literals these macros are
++   less efficient than those above.  */
++
++#include <string.h>
++
++#define _LIBGETTEXT_HAVE_VARIABLE_SIZE_ARRAYS \
++  (((__GNUC__ >= 3 || __GNUG__ >= 2) && !__STRICT_ANSI__) \
++   /* || __STDC_VERSION__ >= 199901L */ )
++
++#if !_LIBGETTEXT_HAVE_VARIABLE_SIZE_ARRAYS
++#include <stdlib.h>
++#endif
++
++#define pgettext_expr(Msgctxt, Msgid) \
++  dcpgettext_expr (NULL, Msgctxt, Msgid, LC_MESSAGES)
++#define dpgettext_expr(Domainname, Msgctxt, Msgid) \
++  dcpgettext_expr (Domainname, Msgctxt, Msgid, LC_MESSAGES)
++
++#ifdef __GNUC__
++__inline
++#else
++#ifdef __cplusplus
++inline
++#endif
++#endif
++static const char *
++dcpgettext_expr (const char *domain,
++		 const char *msgctxt, const char *msgid,
++		 int category)
++{
++  size_t msgctxt_len = strlen (msgctxt) + 1;
++  size_t msgid_len = strlen (msgid) + 1;
++  const char *translation;
++#if _LIBGETTEXT_HAVE_VARIABLE_SIZE_ARRAYS
++  char msg_ctxt_id[msgctxt_len + msgid_len];
++#else
++  char buf[1024];
++  char *msg_ctxt_id =
++    (msgctxt_len + msgid_len <= sizeof (buf)
++     ? buf
++     : (char *) malloc (msgctxt_len + msgid_len));
++  if (msg_ctxt_id != NULL)
++#endif
++    {
++      memcpy (msg_ctxt_id, msgctxt, msgctxt_len - 1);
++      msg_ctxt_id[msgctxt_len - 1] = '\004';
++      memcpy (msg_ctxt_id + msgctxt_len, msgid, msgid_len);
++      translation = dcgettext (domain, msg_ctxt_id, category);
++#if !_LIBGETTEXT_HAVE_VARIABLE_SIZE_ARRAYS
++      if (msg_ctxt_id != buf)
++	free (msg_ctxt_id);
++#endif
++      if (translation != msg_ctxt_id)
++	return translation;
++    }
++  return msgid;
++}
++
++#define npgettext_expr(Msgctxt, Msgid, MsgidPlural, N) \
++  dcnpgettext_expr (NULL, Msgctxt, Msgid, MsgidPlural, N, LC_MESSAGES)
++#define dnpgettext_expr(Domainname, Msgctxt, Msgid, MsgidPlural, N) \
++  dcnpgettext_expr (Domainname, Msgctxt, Msgid, MsgidPlural, N, LC_MESSAGES)
++
++#ifdef __GNUC__
++__inline
++#else
++#ifdef __cplusplus
++inline
++#endif
++#endif
++static const char *
++dcnpgettext_expr (const char *domain,
++		  const char *msgctxt, const char *msgid,
++		  const char *msgid_plural, unsigned long int n,
++		  int category)
++{
++  size_t msgctxt_len = strlen (msgctxt) + 1;
++  size_t msgid_len = strlen (msgid) + 1;
++  const char *translation;
++#if _LIBGETTEXT_HAVE_VARIABLE_SIZE_ARRAYS
++  char msg_ctxt_id[msgctxt_len + msgid_len];
++#else
++  char buf[1024];
++  char *msg_ctxt_id =
++    (msgctxt_len + msgid_len <= sizeof (buf)
++     ? buf
++     : (char *) malloc (msgctxt_len + msgid_len));
++  if (msg_ctxt_id != NULL)
++#endif
++    {
++      memcpy (msg_ctxt_id, msgctxt, msgctxt_len - 1);
++      msg_ctxt_id[msgctxt_len - 1] = '\004';
++      memcpy (msg_ctxt_id + msgctxt_len, msgid, msgid_len);
++      translation = dcngettext (domain, msg_ctxt_id, msgid_plural, n, category);
++#if !_LIBGETTEXT_HAVE_VARIABLE_SIZE_ARRAYS
++      if (msg_ctxt_id != buf)
++	free (msg_ctxt_id);
++#endif
++      if (!(translation == msg_ctxt_id || translation == msgid_plural))
++	return translation;
++    }
++  return (n == 1 ? msgid : msgid_plural);
++}
++
++#endif /* _LIBGETTEXT_H */
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x config.h.in -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x config.rpath -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/libxcb-1.0/lib/inet_ntop.c src/libxcb-1.0/lib/inet_ntop.c
+--- origsrc/libxcb-1.0/lib/inet_ntop.c	1969-12-31 18:00:00.000000000 -0600
++++ src/libxcb-1.0/lib/inet_ntop.c	2007-08-16 07:04:50.515625000 -0500
+@@ -0,0 +1,238 @@
++/* inet_ntop.c -- convert IPv4 and IPv6 addresses from binary to text form
++
++   Copyright (C) 2005, 2006  Free Software Foundation, Inc.
++
++   This program is free software; you can redistribute it and/or modify
++   it under the terms of the GNU General Public License as published by
++   the Free Software Foundation; either version 2, or (at your option)
++   any later version.
++
++   This program is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++   GNU General Public License for more details.
++
++   You should have received a copy of the GNU General Public License
++   along with this program; if not, write to the Free Software Foundation,
++   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
++
++/*
++ * Copyright (c) 1996-1999 by Internet Software Consortium.
++ *
++ * Permission to use, copy, modify, and distribute this software for any
++ * purpose with or without fee is hereby granted, provided that the above
++ * copyright notice and this permission notice appear in all copies.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS" AND INTERNET SOFTWARE CONSORTIUM DISCLAIMS
++ * ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES
++ * OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL INTERNET SOFTWARE
++ * CONSORTIUM BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
++ * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
++ * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS
++ * ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
++ * SOFTWARE.
++ */
++
++#include <config.h>
++
++/* Specification.  */
++#include "inet_ntop.h"
++
++#include <stdio.h>
++#include <string.h>
++#include <errno.h>
++
++#ifndef EAFNOSUPPORT
++# define EAFNOSUPPORT EINVAL
++#endif
++
++#define NS_IN6ADDRSZ 16
++#define NS_INT16SZ 2
++
++/*
++ * WARNING: Don't even consider trying to compile this on a system where
++ * sizeof(int) < 4.  sizeof(int) > 4 is fine; all the world's not a VAX.
++ */
++typedef int verify_int_size[2 * sizeof (int) - 7];
++
++static const char *inet_ntop4 (const unsigned char *src, char *dst, socklen_t size);
++#if HAVE_IPV6
++static const char *inet_ntop6 (const unsigned char *src, char *dst, socklen_t size);
++#endif
++
++
++/* char *
++ * inet_ntop(af, src, dst, size)
++ *	convert a network format address to presentation format.
++ * return:
++ *	pointer to presentation format address (`dst'), or NULL (see errno).
++ * author:
++ *	Paul Vixie, 1996.
++ */
++const char *
++inet_ntop (int af, const void *restrict src,
++	   char *restrict dst, socklen_t cnt)
++{
++  switch (af)
++    {
++#if HAVE_IPV4
++    case AF_INET:
++      return (inet_ntop4 (src, dst, cnt));
++#endif
++
++#if HAVE_IPV6
++    case AF_INET6:
++      return (inet_ntop6 (src, dst, cnt));
++#endif
++
++    default:
++      errno = EAFNOSUPPORT;
++      return (NULL);
++    }
++  /* NOTREACHED */
++}
++
++/* const char *
++ * inet_ntop4(src, dst, size)
++ *	format an IPv4 address
++ * return:
++ *	`dst' (as a const)
++ * notes:
++ *	(1) uses no statics
++ *	(2) takes a u_char* not an in_addr as input
++ * author:
++ *	Paul Vixie, 1996.
++ */
++static const char *
++inet_ntop4 (const unsigned char *src, char *dst, socklen_t size)
++{
++  char tmp[sizeof "255.255.255.255"];
++  int len;
++
++  len = sprintf (tmp, "%u.%u.%u.%u", src[0], src[1], src[2], src[3]);
++  if (len < 0)
++    return NULL;
++
++  if (len > size)
++    {
++      errno = ENOSPC;
++      return NULL;
++    }
++
++  return strcpy (dst, tmp);
++}
++
++#if HAVE_IPV6
++
++/* const char *
++ * inet_ntop6(src, dst, size)
++ *	convert IPv6 binary address into presentation (printable) format
++ * author:
++ *	Paul Vixie, 1996.
++ */
++static const char *
++inet_ntop6 (const unsigned char *src, char *dst, socklen_t size)
++{
++  /*
++   * Note that int32_t and int16_t need only be "at least" large enough
++   * to contain a value of the specified size.  On some systems, like
++   * Crays, there is no such thing as an integer variable with 16 bits.
++   * Keep this in mind if you think this function should have been coded
++   * to use pointer overlays.  All the world's not a VAX.
++   */
++  char tmp[sizeof "ffff:ffff:ffff:ffff:ffff:ffff:255.255.255.255"], *tp;
++  struct
++  {
++    int base, len;
++  } best, cur;
++  unsigned int words[NS_IN6ADDRSZ / NS_INT16SZ];
++  int i;
++
++  /*
++   * Preprocess:
++   *      Copy the input (bytewise) array into a wordwise array.
++   *      Find the longest run of 0x00's in src[] for :: shorthanding.
++   */
++  memset (words, '\0', sizeof words);
++  for (i = 0; i < NS_IN6ADDRSZ; i += 2)
++    words[i / 2] = (src[i] << 8) | src[i + 1];
++  best.base = -1;
++  cur.base = -1;
++  for (i = 0; i < (NS_IN6ADDRSZ / NS_INT16SZ); i++)
++    {
++      if (words[i] == 0)
++	{
++	  if (cur.base == -1)
++	    cur.base = i, cur.len = 1;
++	  else
++	    cur.len++;
++	}
++      else
++	{
++	  if (cur.base != -1)
++	    {
++	      if (best.base == -1 || cur.len > best.len)
++		best = cur;
++	      cur.base = -1;
++	    }
++	}
++    }
++  if (cur.base != -1)
++    {
++      if (best.base == -1 || cur.len > best.len)
++	best = cur;
++    }
++  if (best.base != -1 && best.len < 2)
++    best.base = -1;
++
++  /*
++   * Format the result.
++   */
++  tp = tmp;
++  for (i = 0; i < (NS_IN6ADDRSZ / NS_INT16SZ); i++)
++    {
++      /* Are we inside the best run of 0x00's? */
++      if (best.base != -1 && i >= best.base && i < (best.base + best.len))
++	{
++	  if (i == best.base)
++	    *tp++ = ':';
++	  continue;
++	}
++      /* Are we following an initial run of 0x00s or any real hex? */
++      if (i != 0)
++	*tp++ = ':';
++      /* Is this address an encapsulated IPv4? */
++      if (i == 6 && best.base == 0 &&
++	  (best.len == 6 || (best.len == 5 && words[5] == 0xffff)))
++	{
++	  if (!inet_ntop4 (src + 12, tp, sizeof tmp - (tp - tmp)))
++	    return (NULL);
++	  tp += strlen (tp);
++	  break;
++	}
++      {
++	int len = sprintf (tp, "%x", words[i]);
++	if (len < 0)
++	  return NULL;
++	tp += len;
++      }
++    }
++  /* Was it a trailing run of 0x00's? */
++  if (best.base != -1 && (best.base + best.len) ==
++      (NS_IN6ADDRSZ / NS_INT16SZ))
++    *tp++ = ':';
++  *tp++ = '\0';
++
++  /*
++   * Check for overflow, copy, and we're done.
++   */
++  if ((socklen_t) (tp - tmp) > size)
++    {
++      errno = ENOSPC;
++      return NULL;
++    }
++
++  return strcpy (dst, tmp);
++}
++
++#endif
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x config.h.in -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x config.rpath -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/libxcb-1.0/lib/inet_ntop.h src/libxcb-1.0/lib/inet_ntop.h
+--- origsrc/libxcb-1.0/lib/inet_ntop.h	1969-12-31 18:00:00.000000000 -0600
++++ src/libxcb-1.0/lib/inet_ntop.h	2007-08-16 07:04:50.531250000 -0500
+@@ -0,0 +1,42 @@
++/* Convert internet address from internal to printable, presentable format.
++   Copyright (C) 2005, 2006 Free Software Foundation, Inc.
++
++   This program is free software; you can redistribute it and/or modify
++   it under the terms of the GNU General Public License as published by
++   the Free Software Foundation; either version 2, or (at your option)
++   any later version.
++
++   This program is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++   GNU General Public License for more details.
++
++   You should have received a copy of the GNU General Public License
++   along with this program; if not, write to the Free Software Foundation,
++   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
++
++#include <sys/types.h>
++#include <sys/socket.h>
++#include <netinet/in.h>
++#include <arpa/inet.h>
++
++/* Converts an internet address from internal format to a printable,
++   presentable format.
++   AF is an internet address family, such as AF_INET or AF_INET6.
++   SRC points to a 'struct in_addr' (for AF_INET) or 'struct in6_addr'
++   (for AF_INET6).
++   DST points to a buffer having room for CNT bytes.
++   The printable representation of the address (in numeric form, not
++   surrounded by [...], no reverse DNS is done) is placed in DST, and
++   DST is returned.  If an error occurs, the return value is NULL and
++   errno is set.  If CNT bytes are not sufficient to hold the result,
++   the return value is NULL and errno is set to ENOSPC.  A good value
++   for CNT is 46.
++
++   For more details, see the POSIX:2001 specification
++   <http://www.opengroup.org/susv3xsh/inet_ntop.html>.  */
++
++#if !HAVE_DECL_INET_NTOP
++extern const char *inet_ntop (int af, const void *restrict src,
++			      char *restrict dst, socklen_t cnt);
++#endif
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x config.h.in -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x config.rpath -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/libxcb-1.0/m4/getaddrinfo.m4 src/libxcb-1.0/m4/getaddrinfo.m4
+--- origsrc/libxcb-1.0/m4/getaddrinfo.m4	1969-12-31 18:00:00.000000000 -0600
++++ src/libxcb-1.0/m4/getaddrinfo.m4	2007-08-16 07:04:50.546875000 -0500
+@@ -0,0 +1,114 @@
++# getaddrinfo.m4 serial 12
++dnl Copyright (C) 2004, 2005, 2006, 2007 Free Software Foundation, Inc.
++dnl This file is free software; the Free Software Foundation
++dnl gives unlimited permission to copy and/or distribute it,
++dnl with or without modifications, as long as this notice is preserved.
++
++AC_DEFUN([gl_GETADDRINFO],
++[
++  AC_REQUIRE([gl_HEADER_SYS_SOCKET])dnl for HAVE_SYS_SOCKET_H, HAVE_WINSOCK2_H
++  AC_MSG_NOTICE([checking how to do getaddrinfo, freeaddrinfo and getnameinfo])
++
++  AC_SEARCH_LIBS(getaddrinfo, [nsl socket])
++  AC_CHECK_FUNCS(getaddrinfo,, [
++    AC_CACHE_CHECK(for getaddrinfo in ws2tcpip.h and -lws2_32,
++		   gl_cv_w32_getaddrinfo, [
++      gl_cv_w32_getaddrinfo=no
++      am_save_LIBS="$LIBS"
++      LIBS="$LIBS -lws2_32"
++      AC_TRY_LINK([
++#ifdef HAVE_WS2TCPIP_H
++#include <ws2tcpip.h>
++#endif
++], [getaddrinfo(0, 0, 0, 0);], gl_cv_w32_getaddrinfo=yes)
++    LIBS="$am_save_LIBS"])
++    if test "$gl_cv_w32_getaddrinfo" = "yes"; then
++      LIBS="$LIBS -lws2_32"
++    else
++      AC_LIBOBJ(getaddrinfo)
++    fi
++    ])
++
++  # We can't use AC_REPLACE_FUNCS here because gai_strerror may be an
++  # inline function declared in ws2tcpip.h, so we need to get that
++  # header included somehow.
++  AC_CHECK_HEADERS_ONCE(netdb.h)
++  AC_CACHE_CHECK([for gai_strerror (possibly via ws2tcpip.h)],
++    gl_cv_func_gai_strerror, [
++      AC_TRY_LINK([
++#include <sys/types.h>
++#ifdef HAVE_SYS_SOCKET_H
++#include <sys/socket.h>
++#endif
++#ifdef HAVE_NETDB_H
++#include <netdb.h>
++#endif
++#ifdef HAVE_WS2TCPIP_H
++#include <ws2tcpip.h>
++#endif
++], [gai_strerror (0);],
++        [gl_cv_func_gai_strerror=yes],
++        [gl_cv_func_gai_strerror=no])])
++  if test $gl_cv_func_gai_strerror = no; then
++    AC_LIBOBJ(gai_strerror)
++  fi
++
++  gl_PREREQ_GETADDRINFO
++])
++
++# Prerequisites of lib/getaddrinfo.h and lib/getaddrinfo.c.
++AC_DEFUN([gl_PREREQ_GETADDRINFO], [
++  AC_REQUIRE([gl_HEADER_SYS_SOCKET])dnl for HAVE_SYS_SOCKET_H, HAVE_WINSOCK2_H
++  AC_SEARCH_LIBS(gethostbyname, [inet nsl])
++  AC_SEARCH_LIBS(getservbyname, [inet nsl socket xnet])
++  AC_CHECK_FUNCS(gethostbyname,, [
++    AC_CACHE_CHECK(for gethostbyname in winsock2.h and -lws2_32,
++		   gl_cv_w32_gethostbyname, [
++      gl_cv_w32_gethostbyname=no
++      am_save_LIBS="$LIBS"
++      LIBS="$LIBS -lws2_32"
++      AC_TRY_LINK([
++#ifdef HAVE_WINSOCK2_H
++#include <winsock2.h>
++#endif
++], [gethostbyname(0);], gl_cv_w32_gethostbyname=yes)
++    LIBS="$am_save_LIBS"])
++    if test "$gl_cv_w32_gethostbyname" = "yes"; then
++      LIBS="$LIBS -lws2_32"
++    fi
++    ])
++  AC_REQUIRE([AC_C_RESTRICT])
++  AC_REQUIRE([gl_SOCKET_FAMILIES])
++  AC_REQUIRE([gl_HEADER_SYS_SOCKET])
++  AC_REQUIRE([AC_C_INLINE])
++  AC_REQUIRE([AC_GNU_SOURCE])
++  AC_CHECK_HEADERS_ONCE(netinet/in.h netdb.h)
++  AC_CHECK_DECLS([getaddrinfo, freeaddrinfo, gai_strerror, getnameinfo],,,[
++  /* sys/types.h is not needed according to POSIX, but the
++     sys/socket.h in i386-unknown-freebsd4.10 and
++     powerpc-apple-darwin5.5 required it. */
++#include <sys/types.h>
++#ifdef HAVE_SYS_SOCKET_H
++#include <sys/socket.h>
++#endif
++#ifdef HAVE_NETDB_H
++#include <netdb.h>
++#endif
++#ifdef HAVE_WS2TCPIP_H
++#include <ws2tcpip.h>
++#endif
++])
++  AC_CHECK_TYPES([struct addrinfo],,,[
++#include <sys/types.h>
++#ifdef HAVE_SYS_SOCKET_H
++#include <sys/socket.h>
++#endif
++#ifdef HAVE_NETDB_H
++#include <netdb.h>
++#endif
++#ifdef HAVE_WS2TCPIP_H
++#include <ws2tcpip.h>
++#endif
++])
++])
++
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x config.h.in -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x config.rpath -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/libxcb-1.0/m4/include_next.m4 src/libxcb-1.0/m4/include_next.m4
+--- origsrc/libxcb-1.0/m4/include_next.m4	1969-12-31 18:00:00.000000000 -0600
++++ src/libxcb-1.0/m4/include_next.m4	2007-08-16 07:04:50.546875000 -0500
+@@ -0,0 +1,107 @@
++# include_next.m4 serial 4
++dnl Copyright (C) 2006, 2007 Free Software Foundation, Inc.
++dnl This file is free software; the Free Software Foundation
++dnl gives unlimited permission to copy and/or distribute it,
++dnl with or without modifications, as long as this notice is preserved.
++
++dnl From Paul Eggert and Derek Price.
++
++AC_DEFUN([gl_INCLUDE_NEXT],
++[
++  AC_LANG_PREPROC_REQUIRE()
++  AC_CACHE_CHECK([whether the preprocessor supports include_next],
++    [gl_cv_have_include_next],
++    [rm -rf conftestd1 conftestd2
++     mkdir conftestd1 conftestd2
++     cat <<EOF > conftestd1/conftest.h
++#define DEFINED_IN_CONFTESTD1
++#include_next <conftest.h>
++#ifdef DEFINED_IN_CONFTESTD2
++int foo;
++#else
++#error "include_next doesn't work"
++#endif
++EOF
++     cat <<EOF > conftestd2/conftest.h
++#ifndef DEFINED_IN_CONFTESTD1
++#error "include_next test doesn't work"
++#endif
++#define DEFINED_IN_CONFTESTD2
++EOF
++     save_CPPFLAGS="$CPPFLAGS"
++     CPPFLAGS="$CPPFLAGS -Iconftestd1 -Iconftestd2"
++     AC_COMPILE_IFELSE([#include <conftest.h>],
++       [gl_cv_have_include_next=yes],
++       [gl_cv_have_include_next=no])
++     CPPFLAGS="$save_CPPFLAGS"
++     rm -rf conftestd1 conftestd2
++    ])
++  if test $gl_cv_have_include_next = yes; then
++
++    dnl FIXME: Remove HAVE_INCLUDE_NEXT and update everything that uses it
++    dnl to use @INCLUDE_NEXT@ instead.
++    AC_DEFINE([HAVE_INCLUDE_NEXT], 1,
++	      [Define if your compiler supports the #include_next directive.])
++
++    INCLUDE_NEXT=include_next
++  else
++    INCLUDE_NEXT=include
++  fi
++  AC_SUBST([INCLUDE_NEXT])
++])
++
++# gl_CHECK_NEXT_HEADERS(HEADER1 HEADER2 ...)
++# ------------------------------------------
++# For each arg foo.h, if #include_next works, define NEXT_FOO_H to be
++# '<foo.h>'; otherwise define it to be
++# '"///usr/include/foo.h"', or whatever other absolute file name is suitable.
++# That way, a header file with the following line:
++#	#@INCLUDE_NEXT@ @NEXT_FOO_H@
++# behaves (after sed substitution) as if it contained
++#	#include_next <foo.h>
++# even if the compiler does not support include_next.
++# The three "///" are to pacify Sun C 5.8, which otherwise would say
++# "warning: #include of /usr/include/... may be non-portable".
++# Use `""', not `<>', so that the /// cannot be confused with a C99 comment.
++AC_DEFUN([gl_CHECK_NEXT_HEADERS],
++[
++  AC_REQUIRE([gl_INCLUDE_NEXT])
++  AC_CHECK_HEADERS_ONCE([$1])
++
++  AC_FOREACH([gl_HEADER_NAME], [$1],
++    [AS_VAR_PUSHDEF([gl_next_header],
++		    [gl_cv_next_]m4_quote(m4_defn([gl_HEADER_NAME])))
++     if test $gl_cv_have_include_next = yes; then
++       AS_VAR_SET([gl_next_header], ['<'gl_HEADER_NAME'>'])
++     else
++       AC_CACHE_CHECK(
++	 [absolute name of <]m4_quote(m4_defn([gl_HEADER_NAME]))[>],
++	 m4_quote(m4_defn([gl_next_header])),
++	 [AS_VAR_PUSHDEF([gl_header_exists],
++			 [ac_cv_header_]m4_quote(m4_defn([gl_HEADER_NAME])))
++	  if test AS_VAR_GET(gl_header_exists) = yes; then
++	    AC_LANG_CONFTEST(
++	      [AC_LANG_SOURCE(
++		 [[#include <]]m4_dquote(m4_defn([gl_HEADER_NAME]))[[>]]
++	       )])
++	    dnl eval is necessary to expand ac_cpp.
++	    dnl Ultrix and Pyramid sh refuse to redirect output of eval,
++	    dnl so use subshell.
++	    AS_VAR_SET([gl_next_header],
++	      ['"'`(eval "$ac_cpp conftest.$ac_ext") 2>&AS_MESSAGE_LOG_FD |
++	       sed -n '\#/]m4_quote(m4_defn([gl_HEADER_NAME]))[#{
++		 s#.*"\(.*/]m4_quote(m4_defn([gl_HEADER_NAME]))[\)".*#\1#
++		 s#^/[^/]#//&#
++		 p
++		 q
++	       }'`'"'])
++	  else
++	    AS_VAR_SET([gl_next_header], ['<'gl_HEADER_NAME'>'])
++	  fi
++	  AS_VAR_POPDEF([gl_header_exists])])
++     fi
++     AC_SUBST(
++       AS_TR_CPP([NEXT_]m4_quote(m4_defn([gl_HEADER_NAME]))),
++       [AS_VAR_GET([gl_next_header])])
++     AS_VAR_POPDEF([gl_next_header])])
++])
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x config.h.in -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x config.rpath -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/libxcb-1.0/m4/inet_ntop.m4 src/libxcb-1.0/m4/inet_ntop.m4
+--- origsrc/libxcb-1.0/m4/inet_ntop.m4	1969-12-31 18:00:00.000000000 -0600
++++ src/libxcb-1.0/m4/inet_ntop.m4	2007-08-16 07:04:50.562500000 -0500
+@@ -0,0 +1,19 @@
++# inet_ntop.m4 serial 3
++dnl Copyright (C) 2005, 2006 Free Software Foundation, Inc.
++dnl This file is free software; the Free Software Foundation
++dnl gives unlimited permission to copy and/or distribute it,
++dnl with or without modifications, as long as this notice is preserved.
++
++AC_DEFUN([gl_INET_NTOP],
++[
++  AC_REPLACE_FUNCS(inet_ntop)
++  gl_PREREQ_INET_NTOP
++])
++
++# Prerequisites of lib/inet_ntop.h and lib/inet_ntop.c.
++AC_DEFUN([gl_PREREQ_INET_NTOP], [
++  AC_CHECK_HEADERS_ONCE([netinet/in.h arpa/inet.h])
++  AC_CHECK_DECLS([inet_ntop],,,[#include <arpa/inet.h>])
++  AC_REQUIRE([gl_SOCKET_FAMILIES])
++  AC_REQUIRE([AC_C_RESTRICT])
++])
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x config.h.in -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x config.rpath -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/libxcb-1.0/m4/sockpfaf.m4 src/libxcb-1.0/m4/sockpfaf.m4
+--- origsrc/libxcb-1.0/m4/sockpfaf.m4	1969-12-31 18:00:00.000000000 -0600
++++ src/libxcb-1.0/m4/sockpfaf.m4	2007-08-16 07:04:50.562500000 -0500
+@@ -0,0 +1,58 @@
++# sockpfaf.m4 serial 5
++dnl Copyright (C) 2004, 2006 Free Software Foundation, Inc.
++dnl This file is free software; the Free Software Foundation
++dnl gives unlimited permission to copy and/or distribute it,
++dnl with or without modifications, as long as this notice is preserved.
++
++dnl Test for some common socket protocol families (PF_INET, PF_INET6, ...)
++dnl and some common address families (AF_INET, AF_INET6, ...).
++dnl This test assumes that a system supports an address family if and only if
++dnl it supports the corresponding protocol family.
++
++dnl From Bruno Haible.
++
++AC_DEFUN([gl_SOCKET_FAMILIES],
++[
++  AC_REQUIRE([gl_HEADER_SYS_SOCKET])
++  AC_CHECK_HEADERS_ONCE([netinet/in.h])
++
++  AC_MSG_CHECKING(for IPv4 sockets)
++  AC_CACHE_VAL(gl_cv_socket_ipv4,
++    [AC_TRY_COMPILE([#include <sys/types.h>
++#ifdef HAVE_SYS_SOCKET_H
++#include <sys/socket.h>
++#endif
++#ifdef HAVE_NETINET_IN_H
++#include <netinet/in.h>
++#endif
++#ifdef HAVE_WINSOCK2_H
++#include <winsock2.h>
++#endif],
++[int x = AF_INET; struct in_addr y; struct sockaddr_in z;
++ if (&x && &y && &z) return 0;],
++       gl_cv_socket_ipv4=yes, gl_cv_socket_ipv4=no)])
++  AC_MSG_RESULT($gl_cv_socket_ipv4)
++  if test $gl_cv_socket_ipv4 = yes; then
++    AC_DEFINE(HAVE_IPV4, 1, [Define to 1 if <sys/socket.h> defines AF_INET.])
++  fi
++
++  AC_MSG_CHECKING(for IPv6 sockets)
++  AC_CACHE_VAL(gl_cv_socket_ipv6,
++    [AC_TRY_COMPILE([#include <sys/types.h>
++#ifdef HAVE_SYS_SOCKET_H
++#include <sys/socket.h>
++#endif
++#ifdef HAVE_NETINET_IN_H
++#include <netinet/in.h>
++#endif
++#ifdef HAVE_WINSOCK2_H
++#include <winsock2.h>
++#endif],
++[int x = AF_INET6; struct in6_addr y; struct sockaddr_in6 z;
++ if (&x && &y && &z) return 0;],
++       gl_cv_socket_ipv6=yes, gl_cv_socket_ipv6=no)])
++  AC_MSG_RESULT($gl_cv_socket_ipv6)
++  if test $gl_cv_socket_ipv6 = yes; then
++    AC_DEFINE(HAVE_IPV6, 1, [Define to 1 if <sys/socket.h> defines AF_INET6.])
++  fi
++])
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x config.h.in -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x config.rpath -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/libxcb-1.0/m4/sys_socket_h.m4 src/libxcb-1.0/m4/sys_socket_h.m4
+--- origsrc/libxcb-1.0/m4/sys_socket_h.m4	1969-12-31 18:00:00.000000000 -0600
++++ src/libxcb-1.0/m4/sys_socket_h.m4	2007-08-16 07:04:50.593750000 -0500
+@@ -0,0 +1,51 @@
++# sys_socket_h.m4 serial 4
++dnl Copyright (C) 2005, 2006, 2007 Free Software Foundation, Inc.
++dnl This file is free software; the Free Software Foundation
++dnl gives unlimited permission to copy and/or distribute it,
++dnl with or without modifications, as long as this notice is preserved.
++
++dnl From Simon Josefsson.
++
++AC_DEFUN([gl_HEADER_SYS_SOCKET],
++[
++  AC_CACHE_CHECK([whether <sys/socket.h> is self-contained],
++    [gl_cv_header_sys_socket_h_selfcontained],
++    [
++      AC_COMPILE_IFELSE([AC_LANG_PROGRAM([#include <sys/socket.h>], [])],
++        [gl_cv_header_sys_socket_h_selfcontained=yes],
++        [gl_cv_header_sys_socket_h_selfcontained=no])
++    ])
++  if test $gl_cv_header_sys_socket_h_selfcontained = yes; then
++    SYS_SOCKET_H=''
++  else
++    SYS_SOCKET_H='sys/socket.h'
++
++    gl_CHECK_NEXT_HEADERS([sys/socket.h])
++    if test $ac_cv_header_sys_socket_h = yes; then
++      HAVE_SYS_SOCKET_H=1
++      HAVE_WINSOCK2_H=0
++      HAVE_WS2TCPIP_H=0
++    else
++      HAVE_SYS_SOCKET_H=0
++      dnl We cannot use AC_CHECK_HEADERS_ONCE here, because that would make
++      dnl the check for those headers unconditional; yet cygwin reports
++      dnl that the headers are present but cannot be compiled (since on
++      dnl cygwin, all socket information should come from sys/socket.h).
++      AC_CHECK_HEADERS([winsock2.h ws2tcpip.h])
++      if test $ac_cv_header_winsock2_h = yes; then
++        HAVE_WINSOCK2_H=1
++      else
++        HAVE_WINSOCK2_H=0
++      fi
++      if test $ac_cv_header_ws2tcpip_h = yes; then
++        HAVE_WS2TCPIP_H=1
++      else
++        HAVE_WS2TCPIP_H=0
++      fi
++    fi
++    AC_SUBST([HAVE_SYS_SOCKET_H])
++    AC_SUBST([HAVE_WINSOCK2_H])
++    AC_SUBST([HAVE_WS2TCPIP_H])
++  fi
++  AC_SUBST([SYS_SOCKET_H])
++])
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x config.h.in -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x config.rpath -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/libxcb-1.0/src/Makefile.am src/libxcb-1.0/src/Makefile.am
+--- origsrc/libxcb-1.0/src/Makefile.am	2006-11-23 09:32:30.000000000 -0600
++++ src/libxcb-1.0/src/Makefile.am	2007-08-16 07:04:50.593750000 -0500
+@@ -1,3 +1,5 @@
++AUTOMAKE_OPTIONS = subdir-objects
++
+ lib_LTLIBRARIES = libxcb.la \
+                   libxcb-xlib.la \
+                   libxcb-composite.la \
+@@ -94,8 +96,8 @@
+ xcbinclude_HEADERS = xcb.h xcbext.h xcbxlib.h $(EXTHEADERS)
+ noinst_HEADERS = xcbint.h
+ 
+-AM_CFLAGS = $(CWARNFLAGS) $(NEEDED_CFLAGS) $(XDMCP_CFLAGS)
+-libxcb_la_LIBADD = $(NEEDED_LIBS) $(XDMCP_LIBS)
++AM_CFLAGS = -I$(top_srcdir)/lib $(CWARNFLAGS) $(NEEDED_CFLAGS) $(XDMCP_CFLAGS)
++libxcb_la_LIBADD = $(NEEDED_LIBS) $(XDMCP_LIBS) $(LTLIBOBJS) $(LTLIBINTL)
+ libxcb_la_SOURCES = \
+ 		xcb_conn.c xcb_out.c xcb_in.c xcb_ext.c xcb_xid.c \
+ 		xcb_list.c xcb_util.c xcb_auth.c c-client.xsl \
+@@ -108,96 +110,96 @@
+ # * If you add an interface, increment current and age and set revision to 0.
+ # * If you change or remove an interface, increment current and set revision
+ #   and age to 0.
+-libxcb_la_LDFLAGS = -version-info 1:0:0
++libxcb_la_LDFLAGS = -version-info 1:0:0 -no-undefined -export-symbols-regex "_?xcb.*"
+ 
+ BUILT_SOURCES = $(EXTSOURCES) $(EXTHEADERS)
+ CLEANFILES = $(EXTSOURCES) $(EXTHEADERS) $(EXTENSION_XML)
+ 
+ XCB_LIBS = libxcb.la
+ 
+-libxcb_xlib_la_LDFLAGS = -version-info 0:0:0
++libxcb_xlib_la_LDFLAGS = -version-info 0:0:0 -no-undefined
+ libxcb_xlib_la_LIBADD = $(XCB_LIBS)
+ libxcb_xlib_la_SOURCES = xcb_xlib.c
+ 
+ # FIXME: find a way to autogenerate this from the XML files.
+ 
+-libxcb_composite_la_LDFLAGS = -version-info 0:0:0
++libxcb_composite_la_LDFLAGS = -version-info 0:0:0 -no-undefined
+ libxcb_composite_la_LIBADD = $(XCB_LIBS)
+ libxcb_composite_la_SOURCES = composite.c composite.h
+ 
+-libxcb_damage_la_LDFLAGS = -version-info 0:0:0
++libxcb_damage_la_LDFLAGS = -version-info 0:0:0 -no-undefined
+ libxcb_damage_la_LIBADD = $(XCB_LIBS)
+ libxcb_damage_la_SOURCES = damage.c damage.h
+ 
+-libxcb_dpms_la_LDFLAGS = -version-info 0:0:0
++libxcb_dpms_la_LDFLAGS = -version-info 0:0:0 -no-undefined
+ libxcb_dpms_la_LIBADD = $(XCB_LIBS)
+ libxcb_dpms_la_SOURCES = dpms.c dpms.h
+ 
+-libxcb_glx_la_LDFLAGS = -version-info 0:0:0
++libxcb_glx_la_LDFLAGS = -version-info 0:0:0 -no-undefined
+ libxcb_glx_la_LIBADD = $(XCB_LIBS)
+ libxcb_glx_la_SOURCES = glx.c glx.h
+ 
+-libxcb_randr_la_LDFLAGS = -version-info 0:0:0
++libxcb_randr_la_LDFLAGS = -version-info 0:0:0 -no-undefined
+ libxcb_randr_la_LIBADD = $(XCB_LIBS)
+ libxcb_randr_la_SOURCES = randr.c randr.h
+ 
+-libxcb_record_la_LDFLAGS = -version-info 0:0:0
++libxcb_record_la_LDFLAGS = -version-info 0:0:0 -no-undefined
+ libxcb_record_la_LIBADD = $(XCB_LIBS)
+ libxcb_record_la_SOURCES = record.c record.h
+ 
+-libxcb_render_la_LDFLAGS = -version-info 0:0:0
++libxcb_render_la_LDFLAGS = -version-info 0:0:0 -no-undefined
+ libxcb_render_la_LIBADD = $(XCB_LIBS)
+ libxcb_render_la_SOURCES = render.c render.h
+ 
+-libxcb_res_la_LDFLAGS = -version-info 0:0:0
++libxcb_res_la_LDFLAGS = -version-info 0:0:0 -no-undefined
+ libxcb_res_la_LIBADD = $(XCB_LIBS)
+ libxcb_res_la_SOURCES = res.c res.h
+ 
+-libxcb_screensaver_la_LDFLAGS = -version-info 0:0:0
++libxcb_screensaver_la_LDFLAGS = -version-info 0:0:0 -no-undefined
+ libxcb_screensaver_la_LIBADD = $(XCB_LIBS)
+ libxcb_screensaver_la_SOURCES = screensaver.c screensaver.h
+ 
+-libxcb_shape_la_LDFLAGS = -version-info 0:0:0
++libxcb_shape_la_LDFLAGS = -version-info 0:0:0 -no-undefined
+ libxcb_shape_la_LIBADD = $(XCB_LIBS)
+ libxcb_shape_la_SOURCES = shape.c shape.h
+ 
+-libxcb_shm_la_LDFLAGS = -version-info 0:0:0
++libxcb_shm_la_LDFLAGS = -version-info 0:0:0 -no-undefined
+ libxcb_shm_la_LIBADD = $(XCB_LIBS)
+ libxcb_shm_la_SOURCES = shm.c shm.h
+ 
+-libxcb_sync_la_LDFLAGS = -version-info 0:0:0
++libxcb_sync_la_LDFLAGS = -version-info 0:0:0 -no-undefined
+ libxcb_sync_la_LIBADD = $(XCB_LIBS)
+ libxcb_sync_la_SOURCES = sync.c sync.h
+ 
+-libxcb_xevie_la_LDFLAGS = -version-info 0:0:0
++libxcb_xevie_la_LDFLAGS = -version-info 0:0:0 -no-undefined
+ libxcb_xevie_la_LIBADD = $(XCB_LIBS)
+ libxcb_xevie_la_SOURCES = xevie.c xevie.h
+ 
+-libxcb_xf86dri_la_LDFLAGS = -version-info 0:0:0
++libxcb_xf86dri_la_LDFLAGS = -version-info 0:0:0 -no-undefined
+ libxcb_xf86dri_la_LIBADD = $(XCB_LIBS)
+ libxcb_xf86dri_la_SOURCES = xf86dri.c xf86dri.h
+ 
+-libxcb_xfixes_la_LDFLAGS = -version-info 0:0:0
++libxcb_xfixes_la_LDFLAGS = -version-info 0:0:0 -no-undefined
+ libxcb_xfixes_la_LIBADD = $(XCB_LIBS)
+ libxcb_xfixes_la_SOURCES = xfixes.c xfixes.h
+ 
+-libxcb_xprint_la_LDFLAGS = -version-info 0:0:0
++libxcb_xprint_la_LDFLAGS = -version-info 0:0:0 -no-undefined
+ libxcb_xprint_la_LIBADD = $(XCB_LIBS)
+ libxcb_xprint_la_SOURCES = xprint.c xprint.h
+ 
+-libxcb_xtest_la_LDFLAGS = -version-info 0:0:0
++libxcb_xtest_la_LDFLAGS = -version-info 0:0:0 -no-undefined
+ libxcb_xtest_la_LIBADD = $(XCB_LIBS)
+ libxcb_xtest_la_SOURCES = xtest.c xtest.h
+ 
+-libxcb_xv_la_LDFLAGS = -version-info 0:0:0
++libxcb_xv_la_LDFLAGS = -version-info 0:0:0 -no-undefined
+ libxcb_xv_la_LIBADD = $(XCB_LIBS)
+ libxcb_xv_la_SOURCES = xv.c xv.h
+ 
+-libxcb_xvmc_la_LDFLAGS = -version-info 0:0:0
++libxcb_xvmc_la_LDFLAGS = -version-info 0:0:0 -no-undefined
+ libxcb_xvmc_la_LIBADD = $(XCB_LIBS)
+ libxcb_xvmc_la_SOURCES = xvmc.c xvmc.h
+ 
+-libxcb_xinerama_la_LDFLAGS = -version-info 0:0:0
++libxcb_xinerama_la_LDFLAGS = -version-info 0:0:0 -no-undefined
+ libxcb_xinerama_la_LIBADD = $(XCB_LIBS)
+ libxcb_xinerama_la_SOURCES = xinerama.c xinerama.h
+ 
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x config.h.in -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x config.rpath -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/libxcb-1.0/src/xcb_auth.c src/libxcb-1.0/src/xcb_auth.c
+--- origsrc/libxcb-1.0/src/xcb_auth.c	2006-11-21 22:17:51.000000000 -0600
++++ src/libxcb-1.0/src/xcb_auth.c	2007-08-16 07:04:50.593750000 -0500
+@@ -41,6 +41,10 @@
+ #include <X11/Xdmcp.h>
+ #endif
+ 
++#ifndef HAVE_GETADDRINFO
++#include "getaddrinfo.h"
++#endif
++
+ enum auth_protos {
+ #ifdef HASXDMAUTH
+     AUTH_XA1,
+@@ -93,6 +97,7 @@
+     family = FamilyLocal; /* 256 */
+     switch(sockname->sa_family)
+     {
++#ifdef HAVE_IPV6
+     case AF_INET6:
+         addr = (char *) SIN6_ADDR(sockname);
+         addrlen = sizeof(*SIN6_ADDR(sockname));
+@@ -103,6 +108,7 @@
+             break;
+         }
+         addr += 12;
++#endif
+         /* if v4-mapped, fall through. */
+     case AF_INET:
+         if(!addr)
+@@ -179,6 +185,7 @@
+ 	    APPEND(info->data, j, si->sin_port);
+ 	}
+ 	break;
++#ifdef HAVE_IPV6
+         case AF_INET6:
+             /*block*/ {
+             struct sockaddr_in6 *si6 = (struct sockaddr_in6 *) sockname;
+@@ -199,6 +206,7 @@
+             }
+         }
+         break;
++#endif
+         case AF_UNIX:
+             /*block*/ {
+ 	    uint32_t fakeaddr = htonl(0xffffffff - next_nonce());
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x config.h.in -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x config.rpath -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/libxcb-1.0/src/xcb_util.c src/libxcb-1.0/src/xcb_util.c
+--- origsrc/libxcb-1.0/src/xcb_util.c	2006-11-21 22:20:15.000000000 -0600
++++ src/libxcb-1.0/src/xcb_util.c	2007-08-16 07:07:41.281250000 -0500
+@@ -45,6 +45,10 @@
+ #include "xcbext.h"
+ #include "xcbint.h"
+ 
++#ifndef HAVE_GETADDRINFO
++#include "getaddrinfo.h"
++#endif
++
+ static const int error_connection = 1;
+ 
+ int xcb_popcount(uint32_t mask)
+@@ -176,7 +180,10 @@
+ static int _xcb_open_tcp(char *host, const unsigned short port)
+ {
+     int fd = -1;
+-    struct addrinfo hints = { AI_ADDRCONFIG
++    struct addrinfo hints = { 0
++#ifdef AI_ADDRCONFIG
++                              | AI_ADDRCONFIG
++#endif
+ #ifdef AI_NUMERICSERV
+                               | AI_NUMERICSERV
+ #endif
+@@ -185,14 +192,18 @@
+     struct addrinfo *results, *addr;
+     char *bracket;
+     
++#ifdef AF_INET6
+     /* Allow IPv6 addresses enclosed in brackets. */
+     if(host[0] == '[' && (bracket = strrchr(host, ']')) && bracket[1] == '\0')
+     {
+         *bracket = '\0';
+         ++host;
++#ifdef AI_NUMERICHOST
+         hints.ai_flags |= AI_NUMERICHOST;
++#endif
+         hints.ai_family = AF_INET6;
+     }
++#endif
+ 
+     snprintf(service, sizeof(service), "%hu", port);
+     if(getaddrinfo(host, service, &hints, &results))
