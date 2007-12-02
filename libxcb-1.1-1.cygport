@@ -1,0 +1,15 @@
+DESCRIPTION="X Protocol C-Language Bindings runtime"
+HOMEPAGE="http://xcb.sourceforge.net/"
+SRC_URI="http://xcb.freedesktop.org/dist/${P}.tar.bz2"
+
+prot="composite damage dpms glx randr record render res screensaver shape
+      shm sync xevie xf86dri xfixes xinerama xlib xprint xtest xv xvmc"
+
+PKG_NAMES="${PN} ${PN}1 ${PN}-devel ${PN}-doc"
+PKG_HINTS="setup runtime devel doc"
+PKG_CONTENTS[0]='--exclude=manual --exclude=tutorial usr/share/'
+PKG_CONTENTS[1]='usr/bin/*.dll'
+PKG_CONTENTS[2]='etc/ usr/include/ usr/lib/'
+PKG_CONTENTS[3]="usr/share/doc/${P}/manual/ usr/share/doc/${P}/tutorial/"
+
+DOCS="src/getaddrinfo.README"
