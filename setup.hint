@@ -1,5 +1,5 @@
-category: X11
-sdesc: "X Protocol C-Language Bindings (READMEs)"
+category: _source
+sdesc: "X Protocol C-Language Bindings (source)"
 ldesc: "libxcb provides an interface to the X Window System protocol,
 which replaces the current Xlib interface. It has several advantages
 over Xlib, including:

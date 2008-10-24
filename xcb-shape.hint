@@ -1,7 +1,7 @@
 category: X11
-requires: cygwin libXau6 libXdmcp6
+requires: cygwin libxcb1
 external-source: libxcb
-sdesc: "X Protocol C-Language Bindings (core runtime)"
+sdesc: "X Protocol C-Language Bindings (shape runtime)"
 ldesc: "libxcb provides an interface to the X Window System protocol,
 which replaces the current Xlib interface. It has several advantages
 over Xlib, including:

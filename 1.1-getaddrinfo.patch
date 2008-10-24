@@ -1,10 +1,18 @@
 --- origsrc/libxcb-1.1/configure.ac	2007-11-04 17:17:11.000000000 -0600
-+++ src/libxcb-1.1/configure.ac	2007-12-01 23:10:23.656250000 -0600
-@@ -59,7 +59,9 @@
++++ src/libxcb-1.1/configure.ac	2008-10-24 12:30:54.833559000 -0500
+@@ -58,8 +58,17 @@
+ AC_MSG_RESULT($XCBPROTO_XCBINCLUDEDIR)
  AC_SUBST(XCBPROTO_XCBINCLUDEDIR)
  
++AC_C_CONST
  AC_HEADER_STDC
 -AC_SEARCH_LIBS(getaddrinfo, socket)
++AC_CHECK_HEADERS(string.h memory.h stdlib.h)
++AC_CHECK_FUNCS(memcpy)
++AC_REPLACE_FUNCS(memset)
++AC_TYPE_SOCKLEN_T
++AC_TYPE_IN_PORT_T
++AC_DECL_H_ERRNO
 +AC_SEARCH_LIBS(getaddrinfo, socket, 
 +    [AC_DEFINE([HAVE_GETADDRINFO], 1, [Define if you have the getaddrinfo function])],
 +    [AC_LIBOBJ(getaddrinfo)])
@@ -12,7 +20,7 @@
  
  xcbincludedir='${includedir}/xcb'
 --- origsrc/libxcb-1.1/src/Makefile.am	2006-11-24 04:42:54.000000000 -0600
-+++ src/libxcb-1.1/src/Makefile.am	2007-12-01 23:10:23.656250000 -0600
++++ src/libxcb-1.1/src/Makefile.am	2008-10-24 12:30:15.489809000 -0500
 @@ -95,7 +95,7 @@
  noinst_HEADERS = xcbint.h
  
@@ -22,127 +30,8 @@
  libxcb_la_SOURCES = \
  		xcb_conn.c xcb_out.c xcb_in.c xcb_ext.c xcb_xid.c \
  		xcb_list.c xcb_util.c xcb_auth.c c-client.xsl \
-@@ -108,96 +108,96 @@
- # * If you add an interface, increment current and age and set revision to 0.
- # * If you change or remove an interface, increment current and set revision
- #   and age to 0.
--libxcb_la_LDFLAGS = -version-info 1:0:0
-+libxcb_la_LDFLAGS = -version-info 1:0:0 -no-undefined -export-symbols-regex "_?xcb.*"
- 
- BUILT_SOURCES = $(EXTSOURCES) $(EXTHEADERS)
- CLEANFILES = $(EXTSOURCES) $(EXTHEADERS) $(EXTENSION_XML)
- 
- XCB_LIBS = libxcb.la
- 
--libxcb_xlib_la_LDFLAGS = -version-info 0:0:0
-+libxcb_xlib_la_LDFLAGS = -version-info 0:0:0 -no-undefined
- libxcb_xlib_la_LIBADD = $(XCB_LIBS)
- libxcb_xlib_la_SOURCES = xcb_xlib.c
- 
- # FIXME: find a way to autogenerate this from the XML files.
- 
--libxcb_composite_la_LDFLAGS = -version-info 0:0:0
-+libxcb_composite_la_LDFLAGS = -version-info 0:0:0 -no-undefined
- libxcb_composite_la_LIBADD = $(XCB_LIBS)
- libxcb_composite_la_SOURCES = composite.c composite.h
- 
--libxcb_damage_la_LDFLAGS = -version-info 0:0:0
-+libxcb_damage_la_LDFLAGS = -version-info 0:0:0 -no-undefined
- libxcb_damage_la_LIBADD = $(XCB_LIBS)
- libxcb_damage_la_SOURCES = damage.c damage.h
- 
--libxcb_dpms_la_LDFLAGS = -version-info 0:0:0
-+libxcb_dpms_la_LDFLAGS = -version-info 0:0:0 -no-undefined
- libxcb_dpms_la_LIBADD = $(XCB_LIBS)
- libxcb_dpms_la_SOURCES = dpms.c dpms.h
- 
--libxcb_glx_la_LDFLAGS = -version-info 0:0:0
-+libxcb_glx_la_LDFLAGS = -version-info 0:0:0 -no-undefined
- libxcb_glx_la_LIBADD = $(XCB_LIBS)
- libxcb_glx_la_SOURCES = glx.c glx.h
- 
--libxcb_randr_la_LDFLAGS = -version-info 0:0:0
-+libxcb_randr_la_LDFLAGS = -version-info 0:0:0 -no-undefined
- libxcb_randr_la_LIBADD = $(XCB_LIBS)
- libxcb_randr_la_SOURCES = randr.c randr.h
- 
--libxcb_record_la_LDFLAGS = -version-info 0:0:0
-+libxcb_record_la_LDFLAGS = -version-info 0:0:0 -no-undefined
- libxcb_record_la_LIBADD = $(XCB_LIBS)
- libxcb_record_la_SOURCES = record.c record.h
- 
--libxcb_render_la_LDFLAGS = -version-info 0:0:0
-+libxcb_render_la_LDFLAGS = -version-info 0:0:0 -no-undefined
- libxcb_render_la_LIBADD = $(XCB_LIBS)
- libxcb_render_la_SOURCES = render.c render.h
- 
--libxcb_res_la_LDFLAGS = -version-info 0:0:0
-+libxcb_res_la_LDFLAGS = -version-info 0:0:0 -no-undefined
- libxcb_res_la_LIBADD = $(XCB_LIBS)
- libxcb_res_la_SOURCES = res.c res.h
- 
--libxcb_screensaver_la_LDFLAGS = -version-info 0:0:0
-+libxcb_screensaver_la_LDFLAGS = -version-info 0:0:0 -no-undefined
- libxcb_screensaver_la_LIBADD = $(XCB_LIBS)
- libxcb_screensaver_la_SOURCES = screensaver.c screensaver.h
- 
--libxcb_shape_la_LDFLAGS = -version-info 0:0:0
-+libxcb_shape_la_LDFLAGS = -version-info 0:0:0 -no-undefined
- libxcb_shape_la_LIBADD = $(XCB_LIBS)
- libxcb_shape_la_SOURCES = shape.c shape.h
- 
--libxcb_shm_la_LDFLAGS = -version-info 0:0:0
-+libxcb_shm_la_LDFLAGS = -version-info 0:0:0 -no-undefined
- libxcb_shm_la_LIBADD = $(XCB_LIBS)
- libxcb_shm_la_SOURCES = shm.c shm.h
- 
--libxcb_sync_la_LDFLAGS = -version-info 0:0:0
-+libxcb_sync_la_LDFLAGS = -version-info 0:0:0 -no-undefined
- libxcb_sync_la_LIBADD = $(XCB_LIBS)
- libxcb_sync_la_SOURCES = sync.c sync.h
- 
--libxcb_xevie_la_LDFLAGS = -version-info 0:0:0
-+libxcb_xevie_la_LDFLAGS = -version-info 0:0:0 -no-undefined
- libxcb_xevie_la_LIBADD = $(XCB_LIBS)
- libxcb_xevie_la_SOURCES = xevie.c xevie.h
- 
--libxcb_xf86dri_la_LDFLAGS = -version-info 0:0:0
-+libxcb_xf86dri_la_LDFLAGS = -version-info 0:0:0 -no-undefined
- libxcb_xf86dri_la_LIBADD = $(XCB_LIBS)
- libxcb_xf86dri_la_SOURCES = xf86dri.c xf86dri.h
- 
--libxcb_xfixes_la_LDFLAGS = -version-info 0:0:0
-+libxcb_xfixes_la_LDFLAGS = -version-info 0:0:0 -no-undefined
- libxcb_xfixes_la_LIBADD = $(XCB_LIBS)
- libxcb_xfixes_la_SOURCES = xfixes.c xfixes.h
- 
--libxcb_xprint_la_LDFLAGS = -version-info 0:0:0
-+libxcb_xprint_la_LDFLAGS = -version-info 0:0:0 -no-undefined
- libxcb_xprint_la_LIBADD = $(XCB_LIBS)
- libxcb_xprint_la_SOURCES = xprint.c xprint.h
- 
--libxcb_xtest_la_LDFLAGS = -version-info 0:0:0
-+libxcb_xtest_la_LDFLAGS = -version-info 0:0:0 -no-undefined
- libxcb_xtest_la_LIBADD = $(XCB_LIBS)
- libxcb_xtest_la_SOURCES = xtest.c xtest.h
- 
--libxcb_xv_la_LDFLAGS = -version-info 0:0:0
-+libxcb_xv_la_LDFLAGS = -version-info 0:0:0 -no-undefined
- libxcb_xv_la_LIBADD = $(XCB_LIBS)
- libxcb_xv_la_SOURCES = xv.c xv.h
- 
--libxcb_xvmc_la_LDFLAGS = -version-info 0:0:0
-+libxcb_xvmc_la_LDFLAGS = -version-info 0:0:0 -no-undefined
- libxcb_xvmc_la_LIBADD = $(XCB_LIBS)
- libxcb_xvmc_la_SOURCES = xvmc.c xvmc.h
- 
--libxcb_xinerama_la_LDFLAGS = -version-info 0:0:0
-+libxcb_xinerama_la_LDFLAGS = -version-info 0:0:0 -no-undefined
- libxcb_xinerama_la_LIBADD = $(XCB_LIBS)
- libxcb_xinerama_la_SOURCES = xinerama.c xinerama.h
- 
 --- origsrc/libxcb-1.1/src/dummyin6.h	1969-12-31 18:00:00.000000000 -0600
-+++ src/libxcb-1.1/src/dummyin6.h	2007-12-01 23:10:23.671875000 -0600
++++ src/libxcb-1.1/src/dummyin6.h	2008-10-24 12:30:15.505434000 -0500
 @@ -0,0 +1,167 @@
 +/*
 + * Copyright (c) 2001, 2003  Motoyuki Kasahara
@@ -312,7 +201,7 @@
 +
 +#endif /* not DUMMYIN6_H */
 --- origsrc/libxcb-1.1/src/getaddrinfo.README	1969-12-31 18:00:00.000000000 -0600
-+++ src/libxcb-1.1/src/getaddrinfo.README	2007-12-01 23:10:23.687500000 -0600
++++ src/libxcb-1.1/src/getaddrinfo.README	2008-10-24 12:30:15.505434000 -0500
 @@ -0,0 +1,149 @@
 +
 +		   getaddrinfo() and getnameinfo()
@@ -464,7 +353,7 @@
 +OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 +SUCH DAMAGE.
 --- origsrc/libxcb-1.1/src/getaddrinfo.c	1969-12-31 18:00:00.000000000 -0600
-+++ src/libxcb-1.1/src/getaddrinfo.c	2007-12-01 23:10:23.750000000 -0600
++++ src/libxcb-1.1/src/getaddrinfo.c	2008-10-24 12:30:15.521059000 -0500
 @@ -0,0 +1,593 @@
 +/*
 + * Copyright (c) 2001, 02  Motoyuki Kasahara
@@ -1060,7 +949,7 @@
 +}
 +
 --- origsrc/libxcb-1.1/src/getaddrinfo.h	1969-12-31 18:00:00.000000000 -0600
-+++ src/libxcb-1.1/src/getaddrinfo.h	2007-12-01 23:10:23.750000000 -0600
++++ src/libxcb-1.1/src/getaddrinfo.h	2008-10-24 12:30:15.536684000 -0500
 @@ -0,0 +1,227 @@
 +/*
 + * Copyright (c) 2001, 02  Motoyuki Kasahara
@@ -1289,8 +1178,68 @@
 +#endif
 +
 +#endif /* not GETADDRINFO_H */
+--- origsrc/libxcb-1.1/src/memset.c	1969-12-31 18:00:00.000000000 -0600
++++ src/libxcb-1.1/src/memset.c	2008-10-24 12:43:42.745518800 -0500
+@@ -0,0 +1,57 @@
++/*
++ * Copyright (c) 2001  Motoyuki Kasahara
++ *
++ * Redistribution and use in source and binary forms, with or without
++ * modification, are permitted provided that the following conditions
++ * are met:
++ * 1. Redistributions of source code must retain the above copyright
++ *    notice, this list of conditions and the following disclaimer.
++ * 2. Redistributions in binary form must reproduce the above copyright
++ *    notice, this list of conditions and the following disclaimer in the
++ *    documentation and/or other materials provided with the distribution.
++ * 3. Neither the name of the project nor the names of its contributors
++ *    may be used to endorse or promote products derived from this software
++ *    without specific prior written permission.
++ *
++ * THIS SOFTWARE IS PROVIDED BY THE PROJECT AND CONTRIBUTORS ``AS IS'' AND
++ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
++ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
++ * ARE DISCLAIMED.  IN NO EVENT SHALL THE PROJECT OR CONTRIBUTORS BE LIABLE
++ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
++ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
++ * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
++ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
++ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
++ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
++ * SUCH DAMAGE.
++ */
++
++#ifdef HAVE_CONFIG_H
++#include "config.h"
++#endif
++
++#include <sys/types.h>
++#include <stdio.h>
++
++#ifdef __STDC__
++#define VOID void
++#else
++#define VOID char
++#endif
++
++#ifndef HAVE_MEMSET
++VOID *
++memset(s, c, len)
++    VOID *s;
++    int c;
++    size_t len;
++{
++    unsigned char *us = (unsigned char *)s;
++    unsigned char uc = (unsigned char)uc;
++
++    while (len-- > 0)
++	*us++ = uc;
++
++    return s;
++}
++#endif
 --- origsrc/libxcb-1.1/src/xcb_auth.c	2006-11-24 04:42:54.000000000 -0600
-+++ src/libxcb-1.1/src/xcb_auth.c	2007-12-01 23:10:23.765625000 -0600
++++ src/libxcb-1.1/src/xcb_auth.c	2008-10-24 12:30:15.536684000 -0500
 @@ -41,6 +41,10 @@
  #include <X11/Xdmcp.h>
  #endif
@@ -1303,7 +1252,7 @@
  #ifdef HASXDMAUTH
      AUTH_XA1,
 --- origsrc/libxcb-1.1/src/xcb_util.c	2007-10-23 11:44:59.000000000 -0500
-+++ src/libxcb-1.1/src/xcb_util.c	2007-12-01 23:10:23.781250000 -0600
++++ src/libxcb-1.1/src/xcb_util.c	2008-10-24 12:30:15.536684000 -0500
 @@ -45,6 +45,11 @@
  #include "xcbext.h"
  #include "xcbint.h"

@@ -14,206 +14,101 @@ However, client programs, libraries, and toolkits will gain the most
 benefit from a native XCB port.
 
 Runtime requirements:
-  cygwin-1.5.24-2
-  libXau6-1.0.3-1
+  cygwin-1.5.25-15
+  libXau6-1.0.4-1
   libXdmcp6-1.0.2-2
 
 Build requirements:
 (besides corresponding devel packages)
-  cygwin-1.5.24-2
-  autoconf2.5-2.61-1
+  autoconf2.5-2.63-1
   automake1.9-1.9.6-2
-  binutils-20060817-1
-  cygport-0.3.7-1
-  gawk-3.1.5-4
+  binutils-20080624-2
+  cygport-0.4.2-1
+  gawk-3.1.6-1
   libpthread-stubs-0.1-1
-  libxslt-1.1.22-1
+  libxslt-1.1.24-2
   make-3.81-1
-  pkg-config-0.21-1
+  pkg-config-0.23a-2
   sed-4.1.5-2
-  xcb-proto-1.1-1
+  xcb-proto-1.2-1
 
 Canonical website:
-  http://xorg.freedesktop.org/
+  http://xcb.freedesktop.org/
 
 Canonical download:
-  http://xorg.freedesktop.org/releases/individual/
+  http://xcb.freedesktop.org/dist/
 
 -------------------------------------------
 
 Build instructions:
-  unpack libxcb-1.1-X-src.tar.bz2
+  unpack libxcb-<VER>-<REL>-src.tar.bz2
     if you use setup to install this src package, it will be
 	 unpacked under /usr/src automatically
   cd /usr/src
-  cygport ./libxcb-1.1-X.cygport all
+  cygport ./libxcb-<VER>-<REL>.cygport all
 
 This will create:
-  /usr/src/libxcb-1.1-X-src.tar.bz2
-  /usr/src/libxcb-1.1-X.tar.bz2
-  /usr/src/libxcb-devel-1.1-X.tar.bz2
-  /usr/src/libxcb-doc-1.1-X.tar.bz2
-  /usr/src/libxcb1-1.1-X.tar.bz2
+  /usr/src/libxcb-<VER>-<REL>-src.tar.bz2
+  /usr/src/libxcb-<VER>-<REL>.tar.bz2
+  /usr/src/libxcb-composite-devel-<VER>-<REL>.tar.bz2
+  /usr/src/libxcb-composite0-<VER>-<REL>.tar.bz2
+  /usr/src/libxcb-damage-devel-<VER>-<REL>.tar.bz2
+  /usr/src/libxcb-damage0-<VER>-<REL>.tar.bz2
+  /usr/src/libxcb-devel-<VER>-<REL>.tar.bz2
+  /usr/src/libxcb-doc-<VER>-<REL>.tar.bz2
+  /usr/src/libxcb-dpms-devel-<VER>-<REL>.tar.bz2
+  /usr/src/libxcb-dpms0-<VER>-<REL>.tar.bz2
+  /usr/src/libxcb-glx-devel-<VER>-<REL>.tar.bz2
+  /usr/src/libxcb-glx0-<VER>-<REL>.tar.bz2
+  /usr/src/libxcb-randr-devel-<VER>-<REL>.tar.bz2
+  /usr/src/libxcb-randr0-<VER>-<REL>.tar.bz2
+  /usr/src/libxcb-record-devel-<VER>-<REL>.tar.bz2
+  /usr/src/libxcb-record0-<VER>-<REL>.tar.bz2
+  /usr/src/libxcb-render-devel-<VER>-<REL>.tar.bz2
+  /usr/src/libxcb-render0-<VER>-<REL>.tar.bz2
+  /usr/src/libxcb-res-devel-<VER>-<REL>.tar.bz2
+  /usr/src/libxcb-res0-<VER>-<REL>.tar.bz2
+  /usr/src/libxcb-screensaver-devel-<VER>-<REL>.tar.bz2
+  /usr/src/libxcb-screensaver0-<VER>-<REL>.tar.bz2
+  /usr/src/libxcb-shape-devel-<VER>-<REL>.tar.bz2
+  /usr/src/libxcb-shape0-<VER>-<REL>.tar.bz2
+  /usr/src/libxcb-shm-devel-<VER>-<REL>.tar.bz2
+  /usr/src/libxcb-shm0-<VER>-<REL>.tar.bz2
+  /usr/src/libxcb-sync-devel-<VER>-<REL>.tar.bz2
+  /usr/src/libxcb-sync0-<VER>-<REL>.tar.bz2
+  /usr/src/libxcb-xevie-devel-<VER>-<REL>.tar.bz2
+  /usr/src/libxcb-xevie0-<VER>-<REL>.tar.bz2
+  /usr/src/libxcb-xf86dri-devel-<VER>-<REL>.tar.bz2
+  /usr/src/libxcb-xf86dri0-<VER>-<REL>.tar.bz2
+  /usr/src/libxcb-xfixes-devel-<VER>-<REL>.tar.bz2
+  /usr/src/libxcb-xfixes0-<VER>-<REL>.tar.bz2
+  /usr/src/libxcb-xinerama-devel-<VER>-<REL>.tar.bz2
+  /usr/src/libxcb-xinerama0-<VER>-<REL>.tar.bz2
+  /usr/src/libxcb-xlib-devel-<VER>-<REL>.tar.bz2
+  /usr/src/libxcb-xlib0-<VER>-<REL>.tar.bz2
+  /usr/src/libxcb-xprint-devel-<VER>-<REL>.tar.bz2
+  /usr/src/libxcb-xprint0-<VER>-<REL>.tar.bz2
+  /usr/src/libxcb-xtest-devel-<VER>-<REL>.tar.bz2
+  /usr/src/libxcb-xtest0-<VER>-<REL>.tar.bz2
+  /usr/src/libxcb-xv-devel-<VER>-<REL>.tar.bz2
+  /usr/src/libxcb-xv0-<VER>-<REL>.tar.bz2
+  /usr/src/libxcb-xvmc-devel-<VER>-<REL>.tar.bz2
+  /usr/src/libxcb-xvmc0-<VER>-<REL>.tar.bz2
+  /usr/src/libxcb1-<VER>-<REL>.tar.bz2
+
+Or use 'cygport libxcb-<VER>-<REL>.cygport prep' to get a patched 
+source directory.
+
+To find out the files included in each binary package, you can
+use "cygcheck -l <PKG>".
 
 -------------------------------------------
 
-Files included in the binary packages:
-
-(libxcb)
-  /usr/share/doc/Cygwin/libxcb-1.1.README
-  /usr/share/doc/libxcb-1.1/COPYING
-  /usr/share/doc/libxcb-1.1/INSTALL
-  /usr/share/doc/libxcb-1.1/NEWS
-  /usr/share/doc/libxcb-1.1/README
-  /usr/share/doc/libxcb-1.1/getaddrinfo.README
-
-(libxcb1)
-  /usr/bin/cygxcb-1.dll
-  /usr/bin/cygxcb-composite-0.dll
-  /usr/bin/cygxcb-damage-0.dll
-  /usr/bin/cygxcb-dpms-0.dll
-  /usr/bin/cygxcb-glx-0.dll
-  /usr/bin/cygxcb-randr-0.dll
-  /usr/bin/cygxcb-record-0.dll
-  /usr/bin/cygxcb-render-0.dll
-  /usr/bin/cygxcb-res-0.dll
-  /usr/bin/cygxcb-screensaver-0.dll
-  /usr/bin/cygxcb-shape-0.dll
-  /usr/bin/cygxcb-shm-0.dll
-  /usr/bin/cygxcb-sync-0.dll
-  /usr/bin/cygxcb-xevie-0.dll
-  /usr/bin/cygxcb-xf86dri-0.dll
-  /usr/bin/cygxcb-xfixes-0.dll
-  /usr/bin/cygxcb-xinerama-0.dll
-  /usr/bin/cygxcb-xlib-0.dll
-  /usr/bin/cygxcb-xprint-0.dll
-  /usr/bin/cygxcb-xtest-0.dll
-  /usr/bin/cygxcb-xv-0.dll
-  /usr/bin/cygxcb-xvmc-0.dll
-
-(libxcb-devel)
-  /usr/include/xcb/bigreq.h
-  /usr/include/xcb/composite.h
-  /usr/include/xcb/damage.h
-  /usr/include/xcb/dpms.h
-  /usr/include/xcb/glx.h
-  /usr/include/xcb/randr.h
-  /usr/include/xcb/record.h
-  /usr/include/xcb/render.h
-  /usr/include/xcb/res.h
-  /usr/include/xcb/screensaver.h
-  /usr/include/xcb/shape.h
-  /usr/include/xcb/shm.h
-  /usr/include/xcb/sync.h
-  /usr/include/xcb/xc_misc.h
-  /usr/include/xcb/xcb.h
-  /usr/include/xcb/xcbext.h
-  /usr/include/xcb/xcbxlib.h
-  /usr/include/xcb/xevie.h
-  /usr/include/xcb/xf86dri.h
-  /usr/include/xcb/xfixes.h
-  /usr/include/xcb/xinerama.h
-  /usr/include/xcb/xprint.h
-  /usr/include/xcb/xproto.h
-  /usr/include/xcb/xtest.h
-  /usr/include/xcb/xv.h
-  /usr/include/xcb/xvmc.h
-  /usr/lib/libxcb-composite.a
-  /usr/lib/libxcb-composite.dll.a
-  /usr/lib/libxcb-composite.la
-  /usr/lib/libxcb-damage.a
-  /usr/lib/libxcb-damage.dll.a
-  /usr/lib/libxcb-damage.la
-  /usr/lib/libxcb-dpms.a
-  /usr/lib/libxcb-dpms.dll.a
-  /usr/lib/libxcb-dpms.la
-  /usr/lib/libxcb-glx.a
-  /usr/lib/libxcb-glx.dll.a
-  /usr/lib/libxcb-glx.la
-  /usr/lib/libxcb-randr.a
-  /usr/lib/libxcb-randr.dll.a
-  /usr/lib/libxcb-randr.la
-  /usr/lib/libxcb-record.a
-  /usr/lib/libxcb-record.dll.a
-  /usr/lib/libxcb-record.la
-  /usr/lib/libxcb-render.a
-  /usr/lib/libxcb-render.dll.a
-  /usr/lib/libxcb-render.la
-  /usr/lib/libxcb-res.a
-  /usr/lib/libxcb-res.dll.a
-  /usr/lib/libxcb-res.la
-  /usr/lib/libxcb-screensaver.a
-  /usr/lib/libxcb-screensaver.dll.a
-  /usr/lib/libxcb-screensaver.la
-  /usr/lib/libxcb-shape.a
-  /usr/lib/libxcb-shape.dll.a
-  /usr/lib/libxcb-shape.la
-  /usr/lib/libxcb-shm.a
-  /usr/lib/libxcb-shm.dll.a
-  /usr/lib/libxcb-shm.la
-  /usr/lib/libxcb-sync.a
-  /usr/lib/libxcb-sync.dll.a
-  /usr/lib/libxcb-sync.la
-  /usr/lib/libxcb-xevie.a
-  /usr/lib/libxcb-xevie.dll.a
-  /usr/lib/libxcb-xevie.la
-  /usr/lib/libxcb-xf86dri.a
-  /usr/lib/libxcb-xf86dri.dll.a
-  /usr/lib/libxcb-xf86dri.la
-  /usr/lib/libxcb-xfixes.a
-  /usr/lib/libxcb-xfixes.dll.a
-  /usr/lib/libxcb-xfixes.la
-  /usr/lib/libxcb-xinerama.a
-  /usr/lib/libxcb-xinerama.dll.a
-  /usr/lib/libxcb-xinerama.la
-  /usr/lib/libxcb-xlib.a
-  /usr/lib/libxcb-xlib.dll.a
-  /usr/lib/libxcb-xlib.la
-  /usr/lib/libxcb-xprint.a
-  /usr/lib/libxcb-xprint.dll.a
-  /usr/lib/libxcb-xprint.la
-  /usr/lib/libxcb-xtest.a
-  /usr/lib/libxcb-xtest.dll.a
-  /usr/lib/libxcb-xtest.la
-  /usr/lib/libxcb-xv.a
-  /usr/lib/libxcb-xv.dll.a
-  /usr/lib/libxcb-xv.la
-  /usr/lib/libxcb-xvmc.a
-  /usr/lib/libxcb-xvmc.dll.a
-  /usr/lib/libxcb-xvmc.la
-  /usr/lib/libxcb.a
-  /usr/lib/libxcb.dll.a
-  /usr/lib/libxcb.la
-  /usr/lib/pkgconfig/xcb-composite.pc
-  /usr/lib/pkgconfig/xcb-damage.pc
-  /usr/lib/pkgconfig/xcb-dpms.pc
-  /usr/lib/pkgconfig/xcb-glx.pc
-  /usr/lib/pkgconfig/xcb-randr.pc
-  /usr/lib/pkgconfig/xcb-record.pc
-  /usr/lib/pkgconfig/xcb-render.pc
-  /usr/lib/pkgconfig/xcb-res.pc
-  /usr/lib/pkgconfig/xcb-screensaver.pc
-  /usr/lib/pkgconfig/xcb-shape.pc
-  /usr/lib/pkgconfig/xcb-shm.pc
-  /usr/lib/pkgconfig/xcb-sync.pc
-  /usr/lib/pkgconfig/xcb-xevie.pc
-  /usr/lib/pkgconfig/xcb-xf86dri.pc
-  /usr/lib/pkgconfig/xcb-xfixes.pc
-  /usr/lib/pkgconfig/xcb-xinerama.pc
-  /usr/lib/pkgconfig/xcb-xlib.pc
-  /usr/lib/pkgconfig/xcb-xprint.pc
-  /usr/lib/pkgconfig/xcb-xtest.pc
-  /usr/lib/pkgconfig/xcb-xv.pc
-  /usr/lib/pkgconfig/xcb-xvmc.pc
-  /usr/lib/pkgconfig/xcb.pc
-
-(libxcb-doc)
-  /usr/share/doc/libxcb-1.1/manual/*
-  /usr/share/doc/libxcb-1.1/tutorial/*
-
-------------------
-
 Port Notes:
+
+----- version 1.1-2 -----
+Rebuilt with better usage of builtin getaddrinfo.
+Created separate packages for each library.
 
 ----- version 1.1-1 -----
 Version bump.
