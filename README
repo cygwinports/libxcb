@@ -21,7 +21,7 @@ Runtime requirements:
 Build requirements:
 (besides corresponding devel packages)
   autoconf2.5-2.63-1
-  automake1.9-1.9.6-2
+  automake1.9-1.9.6-3
   binutils-20080624-2
   cygport-0.4.2-1
   gawk-3.1.6-1
@@ -41,62 +41,54 @@ Canonical download:
 -------------------------------------------
 
 Build instructions:
-  unpack libxcb-<VER>-<REL>-src.tar.bz2
+  unpack libxcb-1.1-X-src.tar.bz2
     if you use setup to install this src package, it will be
 	 unpacked under /usr/src automatically
   cd /usr/src
-  cygport ./libxcb-<VER>-<REL>.cygport all
+  cygport ./libxcb-1.1-X.cygport all
 
 This will create:
-  /usr/src/libxcb-<VER>-<REL>-src.tar.bz2
-  /usr/src/libxcb-<VER>-<REL>.tar.bz2
-  /usr/src/libxcb-composite-devel-<VER>-<REL>.tar.bz2
-  /usr/src/libxcb-composite0-<VER>-<REL>.tar.bz2
-  /usr/src/libxcb-damage-devel-<VER>-<REL>.tar.bz2
-  /usr/src/libxcb-damage0-<VER>-<REL>.tar.bz2
-  /usr/src/libxcb-devel-<VER>-<REL>.tar.bz2
-  /usr/src/libxcb-doc-<VER>-<REL>.tar.bz2
-  /usr/src/libxcb-dpms-devel-<VER>-<REL>.tar.bz2
-  /usr/src/libxcb-dpms0-<VER>-<REL>.tar.bz2
-  /usr/src/libxcb-glx-devel-<VER>-<REL>.tar.bz2
-  /usr/src/libxcb-glx0-<VER>-<REL>.tar.bz2
-  /usr/src/libxcb-randr-devel-<VER>-<REL>.tar.bz2
-  /usr/src/libxcb-randr0-<VER>-<REL>.tar.bz2
-  /usr/src/libxcb-record-devel-<VER>-<REL>.tar.bz2
-  /usr/src/libxcb-record0-<VER>-<REL>.tar.bz2
-  /usr/src/libxcb-render-devel-<VER>-<REL>.tar.bz2
-  /usr/src/libxcb-render0-<VER>-<REL>.tar.bz2
-  /usr/src/libxcb-res-devel-<VER>-<REL>.tar.bz2
-  /usr/src/libxcb-res0-<VER>-<REL>.tar.bz2
-  /usr/src/libxcb-screensaver-devel-<VER>-<REL>.tar.bz2
-  /usr/src/libxcb-screensaver0-<VER>-<REL>.tar.bz2
-  /usr/src/libxcb-shape-devel-<VER>-<REL>.tar.bz2
-  /usr/src/libxcb-shape0-<VER>-<REL>.tar.bz2
-  /usr/src/libxcb-shm-devel-<VER>-<REL>.tar.bz2
-  /usr/src/libxcb-shm0-<VER>-<REL>.tar.bz2
-  /usr/src/libxcb-sync-devel-<VER>-<REL>.tar.bz2
-  /usr/src/libxcb-sync0-<VER>-<REL>.tar.bz2
-  /usr/src/libxcb-xevie-devel-<VER>-<REL>.tar.bz2
-  /usr/src/libxcb-xevie0-<VER>-<REL>.tar.bz2
-  /usr/src/libxcb-xf86dri-devel-<VER>-<REL>.tar.bz2
-  /usr/src/libxcb-xf86dri0-<VER>-<REL>.tar.bz2
-  /usr/src/libxcb-xfixes-devel-<VER>-<REL>.tar.bz2
-  /usr/src/libxcb-xfixes0-<VER>-<REL>.tar.bz2
-  /usr/src/libxcb-xinerama-devel-<VER>-<REL>.tar.bz2
-  /usr/src/libxcb-xinerama0-<VER>-<REL>.tar.bz2
-  /usr/src/libxcb-xlib-devel-<VER>-<REL>.tar.bz2
-  /usr/src/libxcb-xlib0-<VER>-<REL>.tar.bz2
-  /usr/src/libxcb-xprint-devel-<VER>-<REL>.tar.bz2
-  /usr/src/libxcb-xprint0-<VER>-<REL>.tar.bz2
-  /usr/src/libxcb-xtest-devel-<VER>-<REL>.tar.bz2
-  /usr/src/libxcb-xtest0-<VER>-<REL>.tar.bz2
-  /usr/src/libxcb-xv-devel-<VER>-<REL>.tar.bz2
-  /usr/src/libxcb-xv0-<VER>-<REL>.tar.bz2
-  /usr/src/libxcb-xvmc-devel-<VER>-<REL>.tar.bz2
-  /usr/src/libxcb-xvmc0-<VER>-<REL>.tar.bz2
-  /usr/src/libxcb1-<VER>-<REL>.tar.bz2
+  /usr/src/libxcb-1.1-X-src.tar.bz2
+  /usr/src/libxcb-1.1-X.tar.bz2
+  /usr/src/libxcb-composite-devel-1.1-X.tar.bz2
+  /usr/src/libxcb-composite0-1.1-X.tar.bz2
+  /usr/src/libxcb-damage-devel-1.1-X.tar.bz2
+  /usr/src/libxcb-damage0-1.1-X.tar.bz2
+  /usr/src/libxcb-devel-1.1-X.tar.bz2
+  /usr/src/libxcb-doc-1.1-X.tar.bz2
+  /usr/src/libxcb-dpms-devel-1.1-X.tar.bz2
+  /usr/src/libxcb-dpms0-1.1-X.tar.bz2
+  /usr/src/libxcb-glx-devel-1.1-X.tar.bz2
+  /usr/src/libxcb-glx0-1.1-X.tar.bz2
+  /usr/src/libxcb-randr-devel-1.1-X.tar.bz2
+  /usr/src/libxcb-randr0-1.1-X.tar.bz2
+  /usr/src/libxcb-record-devel-1.1-X.tar.bz2
+  /usr/src/libxcb-record0-1.1-X.tar.bz2
+  /usr/src/libxcb-render-devel-1.1-X.tar.bz2
+  /usr/src/libxcb-render0-1.1-X.tar.bz2
+  /usr/src/libxcb-res-devel-1.1-X.tar.bz2
+  /usr/src/libxcb-res0-1.1-X.tar.bz2
+  /usr/src/libxcb-screensaver-devel-1.1-X.tar.bz2
+  /usr/src/libxcb-screensaver0-1.1-X.tar.bz2
+  /usr/src/libxcb-shape-devel-1.1-X.tar.bz2
+  /usr/src/libxcb-shape0-1.1-X.tar.bz2
+  /usr/src/libxcb-shm-devel-1.1-X.tar.bz2
+  /usr/src/libxcb-shm0-1.1-X.tar.bz2
+  /usr/src/libxcb-sync-devel-1.1-X.tar.bz2
+  /usr/src/libxcb-sync0-1.1-X.tar.bz2
+  /usr/src/libxcb-xevie-devel-1.1-X.tar.bz2
+  /usr/src/libxcb-xevie0-1.1-X.tar.bz2
+  /usr/src/libxcb-xfixes-devel-1.1-X.tar.bz2
+  /usr/src/libxcb-xfixes0-1.1-X.tar.bz2
+  /usr/src/libxcb-xinerama-devel-1.1-X.tar.bz2
+  /usr/src/libxcb-xinerama0-1.1-X.tar.bz2
+  /usr/src/libxcb-xlib-devel-1.1-X.tar.bz2
+  /usr/src/libxcb-xlib0-1.1-X.tar.bz2
+  /usr/src/libxcb-xtest-devel-1.1-X.tar.bz2
+  /usr/src/libxcb-xtest0-1.1-X.tar.bz2
+  /usr/src/libxcb1-1.1-X.tar.bz2
 
-Or use 'cygport libxcb-<VER>-<REL>.cygport prep' to get a patched 
+Or use 'cygport libxcb-1.1-X.cygport prep' to get a patched 
 source directory.
 
 To find out the files included in each binary package, you can
@@ -105,6 +97,9 @@ use "cygcheck -l <PKG>".
 -------------------------------------------
 
 Port Notes:
+
+----- version 1.1-3 -----
+Packaged xinerama library.
 
 ----- version 1.1-2 -----
 Rebuilt with better usage of builtin getaddrinfo.

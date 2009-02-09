@@ -13,7 +13,7 @@ libxcb_devel_CONTENTS=	# defined later
 libxcb_doc_CONTENTS="usr/share/doc/${P}/manual/ usr/share/doc/${P}/tutorial/"
 
 for prot in composite damage dpms glx randr record render res screensaver shape \
-            shm sync xevie xfixes xlib
+            shm sync xevie xfixes xinerama xlib xtest
 do
 	case ${prot} in
 		xlib)	header="xcbxlib.h" ;;
@@ -29,13 +29,13 @@ do
 	libxcb_devel_CONTENTS+=" --exclude=${header}"
 done
 
-for obsprot in xf86dri xinerama xprint xtest xv xvmc
+for obsprot in xf86dri xprint xv xvmc
 do
-	PKG_IGNORE+=" usr/bin/cygxcb-${prot}-0.dll
-	              usr/include/xcb/${header}
-	              usr/lib/libxcb-${prot}.*
-	              usr/lib/pkgconfig/xcb-${prot}.pc"
-	libxcb_devel_CONTENTS+=" --exclude=${header}"
+	PKG_IGNORE+=" usr/bin/cygxcb-${obsprot}-0.dll
+	              usr/include/xcb/${obsprot}.h
+	              usr/lib/libxcb-${obsprot}.*
+	              usr/lib/pkgconfig/xcb-${obsprot}.pc"
+	libxcb_devel_CONTENTS+=" --exclude=${obsprot}.h"
 done
 
 libxcb_devel_CONTENTS+=" usr/include/ usr/lib/libxcb.* usr/lib/pkgconfig/xcb.pc"
