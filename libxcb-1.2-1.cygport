@@ -2,7 +2,7 @@ DESCRIPTION="X Protocol C-Language Bindings runtime"
 HOMEPAGE="http://xcb.sourceforge.net/"
 SRC_URI="http://xcb.freedesktop.org/dist/${P}.tar.bz2"
 PATCH_URI="1.1-getaddrinfo.patch
-           1.1-no-undefined.patch"
+           1.2-no-undefined.patch"
 
 n=0
 PKG_NAMES="${PN} ${PN}1 ${PN}-devel ${PN}-doc"
@@ -13,29 +13,35 @@ libxcb_devel_CONTENTS=	# defined later
 libxcb_doc_CONTENTS="usr/share/doc/${P}/manual/ usr/share/doc/${P}/tutorial/"
 
 for prot in composite damage dpms glx randr record render res screensaver shape \
-            shm sync xevie xfixes xinerama xlib xtest
+            shm sync xevie xfixes xinerama xinput xtest
 do
 	case ${prot} in
-		xlib)	header="xcbxlib.h" ;;
-		*)		header="${prot}.h" ;;
+		res)	confopt="resource" ;;
+		*)		confopt="${prot}" ;;
 	esac
 
 	PKG_NAMES+=" libxcb-${prot}0 libxcb-${prot}-devel"
 	PKG_HINTS+=" xcb-${prot} xcb-${prot}-devel"
 	declare libxcb_${prot}0_CONTENTS="usr/bin/cygxcb-${prot}-0.dll"
-	declare libxcb_${prot}_devel_CONTENTS="usr/include/xcb/${header}
+	declare libxcb_${prot}_devel_CONTENTS="usr/include/xcb/${prot}.h
 	                                       usr/lib/libxcb-${prot}.*
 	                                       usr/lib/pkgconfig/xcb-${prot}.pc"
-	libxcb_devel_CONTENTS+=" --exclude=${header}"
+	libxcb_devel_CONTENTS+=" --exclude=${prot}.h"
+
+	CYGCONF_ARGS+=" --enable-${confopt}"
 done
 
-for obsprot in xf86dri xprint xv xvmc
+for obsprot in selinux xf86dri xprint xv xvmc
 do
-	PKG_IGNORE+=" usr/bin/cygxcb-${obsprot}-0.dll
-	              usr/include/xcb/${obsprot}.h
-	              usr/lib/libxcb-${obsprot}.*
-	              usr/lib/pkgconfig/xcb-${obsprot}.pc"
-	libxcb_devel_CONTENTS+=" --exclude=${obsprot}.h"
+	case ${obsprot} in
+		xf86dri)  confopt="xfree86-dri" ;;
+		*)        confopt="${obsprot}" ;;
+	esac
+
+	PKG_IGNORE+=" usr/include/xcb/x${obsprot#x}.h"
+	libxcb_devel_CONTENTS+=" --exclude=x${obsprot#x}.h"
+
+	CYGCONF_ARGS+=" --disable-${confopt}"
 done
 
 libxcb_devel_CONTENTS+=" usr/include/ usr/lib/libxcb.* usr/lib/pkgconfig/xcb.pc"
