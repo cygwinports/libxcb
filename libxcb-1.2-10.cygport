@@ -1,8 +1,7 @@
 DESCRIPTION="X Protocol C-Language Bindings runtime"
 HOMEPAGE="http://xcb.sourceforge.net/"
 SRC_URI="http://xcb.freedesktop.org/dist/${P}.tar.bz2"
-PATCH_URI="1.1-getaddrinfo.patch
-           1.2-no-undefined.patch"
+PATCH_URI="1.2-no-undefined.patch"
 
 n=0
 PKG_NAMES="${PN} ${PN}1 ${PN}-devel ${PN}-doc"
@@ -10,7 +9,7 @@ PKG_HINTS="setup runtime devel doc"
 libxcb_CONTENTS=	# empty
 libxcb1_CONTENTS='--exclude=manual --exclude=tutorial usr/bin/cygxcb-1.dll usr/share/doc/'
 libxcb_devel_CONTENTS=	# defined later
-libxcb_doc_CONTENTS="usr/share/doc/${P}/manual/ usr/share/doc/${P}/tutorial/"
+libxcb_doc_CONTENTS="usr/share/doc/${PN}/manual/ usr/share/doc/${PN}/tutorial/"
 
 for prot in composite damage dpms glx randr record render res screensaver shape \
             shm sync xevie xfixes xinerama xinput xtest
