@@ -44,5 +44,3 @@ do
 done
 
 libxcb_devel_CONTENTS+=" usr/include/ usr/lib/libxcb.* usr/lib/pkgconfig/xcb.pc"
-
-DOCS="src/getaddrinfo.README"

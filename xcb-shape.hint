@@ -1,5 +1,5 @@
 category: X11
-requires: cygwin libxcb1
+requires: cygwin libxcb1 libgcc1
 external-source: libxcb
 sdesc: "X Protocol C-Language Bindings (shape runtime)"
 ldesc: "libxcb provides an interface to the X Window System protocol,
