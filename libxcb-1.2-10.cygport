@@ -12,7 +12,7 @@ libxcb_devel_CONTENTS=	# defined later
 libxcb_doc_CONTENTS="usr/share/doc/${PN}/manual/ usr/share/doc/${PN}/tutorial/"
 
 for prot in composite damage dpms glx randr record render res screensaver shape \
-            shm sync xevie xfixes xinerama xinput xtest
+            shm sync xfixes xinerama xinput xtest
 do
 	case ${prot} in
 		res)	confopt="resource" ;;
@@ -30,7 +30,7 @@ do
 	CYGCONF_ARGS+=" --enable-${confopt}"
 done
 
-for obsprot in selinux xf86dri xprint xv xvmc
+for obsprot in selinux xf86dri xevie xprint xv xvmc
 do
 	case ${obsprot} in
 		xf86dri)  confopt="xfree86-dri" ;;

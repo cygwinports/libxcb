@@ -79,8 +79,6 @@ This will create:
   /usr/src/libxcb-shm0-1.2-X.tar.bz2
   /usr/src/libxcb-sync-devel-1.2-X.tar.bz2
   /usr/src/libxcb-sync0-1.2-X.tar.bz2
-  /usr/src/libxcb-xevie-devel-1.2-X.tar.bz2
-  /usr/src/libxcb-xevie0-1.2-X.tar.bz2
   /usr/src/libxcb-xfixes-devel-1.2-X.tar.bz2
   /usr/src/libxcb-xfixes0-1.2-X.tar.bz2
   /usr/src/libxcb-xinerama-devel-1.2-X.tar.bz2
