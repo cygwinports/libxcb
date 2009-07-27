@@ -1,5 +1,5 @@
 category: X11
-requires: libxcb-devel libxcb-randr1
+requires: libxcb-devel libxcb-randr0
 external-source: libxcb
 sdesc: "X Protocol C-Language Bindings (randr libdevel)"
 ldesc: "libxcb provides an interface to the X Window System protocol,
