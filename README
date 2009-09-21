@@ -14,7 +14,7 @@ However, client programs, libraries, and toolkits will gain the most
 benefit from a native XCB port.
 
 Runtime requirements:
-  cygwin-1.7.0-51
+  cygwin-1.7.0-61
   libgcc1-4.3.2-2
   libXau6-1.0.4-10
   libXdmcp6-1.0.2-10
@@ -92,11 +92,14 @@ Or use 'cygport libxcb-1.4-X.cygport prep' to get a patched
 source directory.
 
 To find out the files included in each binary package, you can
-use "cygcheck -l <PKG>".
+run from the command-line: "cygcheck -l <PKG>".
 
 -------------------------------------------
 
 Port Notes:
+
+----- version 1.4-2 -----
+Rebuilt.
 
 ----- version 1.4-1 -----
 Version bump, reversing incorrect ABI bump for libxcb-randr.
