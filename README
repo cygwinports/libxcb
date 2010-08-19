@@ -15,7 +15,6 @@ benefit from a native XCB port.
 
 Runtime requirements:
   cygwin-1.7.5-1
-  libgcc1-4.3.4-3
   libXau6-1.0.5-1
   libXdmcp6-1.0.3-1
 
@@ -23,15 +22,15 @@ Build requirements:
 (besides corresponding devel packages)
   autoconf2.5-2.65-1
   automake1.11-1.11.1-1
-  binutils-2.20.51-1
-  cygport-0.9.83-1
+  binutils-2.20.51-2
+  cygport-0.9.89-1
   gawk-3.1.7-1
-  gcc4-core-4.3.4-3
+  gcc4-core-4.5.0-1
   libpthread-stubs-0.2-1
   libxslt-1.1.26-1
   make-3.81-2
   pkg-config-0.23b-10
-  python-2.5.5-10
+  python-2.6.5-2
   sed-4.2.1-1
   xcb-proto-1.6-1
 
@@ -44,51 +43,51 @@ Canonical download:
 -------------------------------------------
 
 Build instructions:
-  unpack libxcb-1.6-X-src.tar.bz2
+  unpack libxcb-1.7-X-src.tar.bz2
     if you use setup to install this src package, it will be
 	 unpacked under /usr/src automatically
   cd /usr/src
-  cygport ./libxcb-1.6-X.cygport all
+  cygport ./libxcb-1.7-X.cygport all
 
 This will create:
-  /usr/src/libxcb-1.6-X-src.tar.bz2
-  /usr/src/libxcb-composite-devel-1.6-X.tar.bz2
-  /usr/src/libxcb-composite0-1.6-X.tar.bz2
-  /usr/src/libxcb-damage-devel-1.6-X.tar.bz2
-  /usr/src/libxcb-damage0-1.6-X.tar.bz2
-  /usr/src/libxcb-devel-1.6-X.tar.bz2
-  /usr/src/libxcb-doc-1.6-X.tar.bz2
-  /usr/src/libxcb-dpms-devel-1.6-X.tar.bz2
-  /usr/src/libxcb-dpms0-1.6-X.tar.bz2
-  /usr/src/libxcb-glx-devel-1.6-X.tar.bz2
-  /usr/src/libxcb-glx0-1.6-X.tar.bz2
-  /usr/src/libxcb-randr-devel-1.6-X.tar.bz2
-  /usr/src/libxcb-randr0-1.6-X.tar.bz2
-  /usr/src/libxcb-record-devel-1.6-X.tar.bz2
-  /usr/src/libxcb-record0-1.6-X.tar.bz2
-  /usr/src/libxcb-render-devel-1.6-X.tar.bz2
-  /usr/src/libxcb-render0-1.6-X.tar.bz2
-  /usr/src/libxcb-res-devel-1.6-X.tar.bz2
-  /usr/src/libxcb-res0-1.6-X.tar.bz2
-  /usr/src/libxcb-screensaver-devel-1.6-X.tar.bz2
-  /usr/src/libxcb-screensaver0-1.6-X.tar.bz2
-  /usr/src/libxcb-shape-devel-1.6-X.tar.bz2
-  /usr/src/libxcb-shape0-1.6-X.tar.bz2
-  /usr/src/libxcb-shm-devel-1.6-X.tar.bz2
-  /usr/src/libxcb-shm0-1.6-X.tar.bz2
-  /usr/src/libxcb-sync-devel-1.6-X.tar.bz2
-  /usr/src/libxcb-sync0-1.6-X.tar.bz2
-  /usr/src/libxcb-xfixes-devel-1.6-X.tar.bz2
-  /usr/src/libxcb-xfixes0-1.6-X.tar.bz2
-  /usr/src/libxcb-xinerama-devel-1.6-X.tar.bz2
-  /usr/src/libxcb-xinerama0-1.6-X.tar.bz2
-  /usr/src/libxcb-xinput-devel-1.6-X.tar.bz2
-  /usr/src/libxcb-xinput0-1.6-X.tar.bz2
-  /usr/src/libxcb-xtest-devel-1.6-X.tar.bz2
-  /usr/src/libxcb-xtest0-1.6-X.tar.bz2
-  /usr/src/libxcb1-1.6-X.tar.bz2
+  /usr/src/libxcb-1.7-X-src.tar.bz2
+  /usr/src/libxcb-composite-devel-1.7-X.tar.bz2
+  /usr/src/libxcb-composite0-1.7-X.tar.bz2
+  /usr/src/libxcb-damage-devel-1.7-X.tar.bz2
+  /usr/src/libxcb-damage0-1.7-X.tar.bz2
+  /usr/src/libxcb-devel-1.7-X.tar.bz2
+  /usr/src/libxcb-doc-1.7-X.tar.bz2
+  /usr/src/libxcb-dpms-devel-1.7-X.tar.bz2
+  /usr/src/libxcb-dpms0-1.7-X.tar.bz2
+  /usr/src/libxcb-glx-devel-1.7-X.tar.bz2
+  /usr/src/libxcb-glx0-1.7-X.tar.bz2
+  /usr/src/libxcb-randr-devel-1.7-X.tar.bz2
+  /usr/src/libxcb-randr0-1.7-X.tar.bz2
+  /usr/src/libxcb-record-devel-1.7-X.tar.bz2
+  /usr/src/libxcb-record0-1.7-X.tar.bz2
+  /usr/src/libxcb-render-devel-1.7-X.tar.bz2
+  /usr/src/libxcb-render0-1.7-X.tar.bz2
+  /usr/src/libxcb-res-devel-1.7-X.tar.bz2
+  /usr/src/libxcb-res0-1.7-X.tar.bz2
+  /usr/src/libxcb-screensaver-devel-1.7-X.tar.bz2
+  /usr/src/libxcb-screensaver0-1.7-X.tar.bz2
+  /usr/src/libxcb-shape-devel-1.7-X.tar.bz2
+  /usr/src/libxcb-shape0-1.7-X.tar.bz2
+  /usr/src/libxcb-shm-devel-1.7-X.tar.bz2
+  /usr/src/libxcb-shm0-1.7-X.tar.bz2
+  /usr/src/libxcb-sync-devel-1.7-X.tar.bz2
+  /usr/src/libxcb-sync0-1.7-X.tar.bz2
+  /usr/src/libxcb-xfixes-devel-1.7-X.tar.bz2
+  /usr/src/libxcb-xfixes0-1.7-X.tar.bz2
+  /usr/src/libxcb-xinerama-devel-1.7-X.tar.bz2
+  /usr/src/libxcb-xinerama0-1.7-X.tar.bz2
+  /usr/src/libxcb-xinput-devel-1.7-X.tar.bz2
+  /usr/src/libxcb-xinput0-1.7-X.tar.bz2
+  /usr/src/libxcb-xtest-devel-1.7-X.tar.bz2
+  /usr/src/libxcb-xtest0-1.7-X.tar.bz2
+  /usr/src/libxcb1-1.7-X.tar.bz2
 
-Or use 'cygport libxcb-1.6-X.cygport prep' to get a patched 
+Or use 'cygport libxcb-1.7-X.cygport prep' to get a patched 
 source directory.
 
 To find out the files included in each binary package, you can
@@ -97,6 +96,9 @@ run from the command-line: "cygcheck -l <PKG>".
 -------------------------------------------
 
 Port Notes:
+
+----- version 1.7-1 -----
+Version bump.
 
 ----- version 1.6-1 -----
 Version bump.
