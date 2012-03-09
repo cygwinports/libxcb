@@ -2,9 +2,8 @@ DESCRIPTION="X Protocol C-Language Bindings runtime"
 HOMEPAGE="http://xcb.sourceforge.net/"
 SRC_URI="http://xcb.freedesktop.org/dist/${P}.tar.bz2"
 
-PKG_NAMES="${PN} ${PN}1 ${PN}-devel ${PN}-doc"
-PKG_HINTS="setup runtime devel doc"
-libxcb_CONTENTS=	# empty
+PKG_NAMES="${PN}1 ${PN}-devel ${PN}-doc"
+PKG_HINTS="runtime devel doc"
 libxcb1_CONTENTS='--exclude=manual --exclude=tutorial usr/bin/cygxcb-1.dll usr/share/doc/'
 libxcb_devel_CONTENTS=	# defined later
 libxcb_doc_CONTENTS="usr/share/doc/${PN}/manual/ usr/share/doc/${PN}/tutorial/"
@@ -18,7 +17,7 @@ do
 
 	case ${prot} in
 		res)	confopt="resource" ;;
-		*)		confopt="${prot}" ;;
+		*)	confopt="${prot}" ;;
 	esac
 
 	PKG_NAMES+=" libxcb-${prot}${abi} libxcb-${prot}-devel"
@@ -41,7 +40,7 @@ do
 
 	case ${obsprot} in
 		dri2)	obshdr="dri2.h" ;;
-		*)		obshdr="x${obsprot#x}.h" ;;
+		*)	obshdr="x${obsprot#x}.h" ;;
 	esac
 
 	PKG_IGNORE+=" usr/include/xcb/${obshdr}"

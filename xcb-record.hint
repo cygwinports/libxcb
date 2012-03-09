@@ -1,5 +1,5 @@
 category: X11
-requires: libxcb1 libgcc1
+requires: libxcb1
 external-source: libxcb
 sdesc: "X Protocol C-Language Bindings (record runtime)"
 ldesc: "libxcb provides an interface to the X Window System protocol,
