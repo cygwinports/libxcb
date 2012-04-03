@@ -1,6 +1,7 @@
 DESCRIPTION="X Protocol C-Language Bindings runtime"
 HOMEPAGE="http://xcb.sourceforge.net/"
 SRC_URI="http://xcb.freedesktop.org/dist/${P}.tar.bz2"
+PATCH_URI="1.8.1-no-pthread-stubs.patch"
 
 PKG_NAMES="${PN}1 ${PN}-devel ${PN}-doc"
 PKG_HINTS="runtime devel doc"
