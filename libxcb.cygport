@@ -1,13 +1,24 @@
-DESCRIPTION="X Protocol C-Language Bindings runtime"
+NAME="libxcb"
+VERSION=1.9
+RELEASE=1
+CATEGORY="X11"
+SUMMARY="X Protocol C-Language Bindings"
+DESCRIPTION="libxcb provides an interface to the X Window System protocol,
+which replaces the current Xlib interface. Xlib can also use XCB as a transport
+layer, allowing software to make requests and receive responses with both,
+which eases porting to XCB. However, client programs, libraries, and toolkits
+will gain the most benefit from a native XCB port."
 HOMEPAGE="http://xcb.sourceforge.net/"
 SRC_URI="http://xcb.freedesktop.org/dist/${P}.tar.bz2"
 PATCH_URI="1.8.1-no-pthread-stubs.patch"
 
 PKG_NAMES="${PN}1 ${PN}-devel ${PN}-doc"
-PKG_HINTS="runtime devel doc"
+libxcb1_SUMMARY="${SUMMARY} (core runtime)"
 libxcb1_CONTENTS='--exclude=manual --exclude=tutorial usr/bin/cygxcb-1.dll usr/share/doc/'
+libxcb_devel_SUMMARY="${SUMMARY} (core development)"
 libxcb_devel_CONTENTS=	# defined later
-libxcb_doc_CONTENTS="usr/share/doc/${PN}/manual/ usr/share/doc/${PN}/tutorial/"
+libxcb_doc_SUMMARY="${SUMMARY} (API documentation)"
+libxcb_doc_CONTENTS="usr/share/doc/${PN}/manual/ usr/share/doc/${PN}/tutorial/ usr/share/man/man3/"
 
 for prot_abi in composite:0 damage:0 dpms:0 glx:0 randr:0 record:0 render:0 \
                 res:0 screensaver:0 shape:0 shm:0 sync:0 xfixes:0 xinerama:0 \
@@ -22,8 +33,9 @@ do
 	esac
 
 	PKG_NAMES+=" libxcb-${prot}${abi} libxcb-${prot}-devel"
-	PKG_HINTS+=" xcb-${prot} xcb-${prot}-devel"
+	declare libxcb_${prot}${abi}_SUMMARY="${SUMMARY} (${prot} runtime)"
 	declare libxcb_${prot}${abi}_CONTENTS="usr/bin/cygxcb-${prot}-${abi}.dll"
+	declare libxcb_${prot}_devel_SUMMARY="${SUMMARY} (${prot} development)"
 	declare libxcb_${prot}_devel_CONTENTS="usr/include/xcb/${prot}.h
 	                                       usr/lib/libxcb-${prot}.*
 	                                       usr/lib/pkgconfig/xcb-${prot}.pc"
