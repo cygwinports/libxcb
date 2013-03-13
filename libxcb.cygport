@@ -18,7 +18,7 @@ libxcb1_CONTENTS='--exclude=manual --exclude=tutorial usr/bin/cygxcb-1.dll usr/s
 libxcb_devel_SUMMARY="${SUMMARY} (core development)"
 libxcb_devel_CONTENTS=	# defined later
 libxcb_doc_SUMMARY="${SUMMARY} (API documentation)"
-libxcb_doc_CONTENTS="usr/share/doc/${PN}/manual/ usr/share/doc/${PN}/tutorial/ usr/share/man/man3/"
+libxcb_doc_CONTENTS="usr/share/doc/${NAME}/*/ usr/share/man/man3/"
 
 for prot_abi in composite:0 damage:0 dpms:0 glx:0 randr:0 record:0 render:0 \
                 res:0 screensaver:0 shape:0 shm:0 sync:0 xfixes:0 xinerama:0 \
