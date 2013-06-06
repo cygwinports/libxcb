@@ -1,5 +1,5 @@
 NAME="libxcb"
-VERSION=1.9
+VERSION=1.9.1
 RELEASE=1
 CATEGORY="X11"
 SUMMARY="X Protocol C-Language Bindings"
@@ -9,10 +9,10 @@ layer, allowing software to make requests and receive responses with both,
 which eases porting to XCB. However, client programs, libraries, and toolkits
 will gain the most benefit from a native XCB port."
 HOMEPAGE="http://xcb.sourceforge.net/"
-SRC_URI="http://xcb.freedesktop.org/dist/${P}.tar.bz2"
+SRC_URI="http://xcb.freedesktop.org/dist/libxcb-${VERSION}.tar.bz2"
 PATCH_URI="1.8.1-no-pthread-stubs.patch"
 
-PKG_NAMES="${PN}1 ${PN}-devel ${PN}-doc"
+PKG_NAMES="${NAME}1 ${NAME}-devel ${NAME}-doc"
 libxcb1_SUMMARY="${SUMMARY} (core runtime)"
 libxcb1_CONTENTS='--exclude=manual --exclude=tutorial usr/bin/cygxcb-1.dll usr/share/doc/'
 libxcb_devel_SUMMARY="${SUMMARY} (core development)"
