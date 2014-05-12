@@ -1,6 +1,6 @@
 NAME="libxcb"
-VERSION=1.9.1
-RELEASE=2
+VERSION=1.9.3
+RELEASE=1
 CATEGORY="Libs"
 SUMMARY="X Protocol C-Language Bindings"
 DESCRIPTION="libxcb provides an interface to the X Window System protocol,
@@ -22,7 +22,7 @@ libxcb_doc_CONTENTS="usr/share/doc/${NAME}/*/ usr/share/man/man3/"
 
 for prot_abi in composite:0 damage:0 dpms:0 glx:0 randr:0 record:0 render:0 \
                 res:0 screensaver:0 shape:0 shm:0 sync:0 xfixes:0 xinerama:0 \
-                xinput:0 xkb:0 xtest:0
+                xinput:0 xkb:0 xtest:0 present:0
 do
     prot=${prot_abi%:*}
     abi=${prot_abi##*:}
@@ -44,7 +44,7 @@ do
 	CYGCONF_ARGS+=" --enable-${confopt}"
 done
 
-for obsprot in dri2 selinux xf86dri xevie xprint xv xvmc
+for obsprot in dri2 dri3 selinux xf86dri xevie xprint xv xvmc
 do
 	case ${obsprot} in
 		xf86dri)  confopt="xfree86-dri" ;;
