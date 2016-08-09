@@ -1,5 +1,5 @@
 NAME="libxcb"
-VERSION=1.11.1
+VERSION=1.12
 RELEASE=1
 CATEGORY="Libs"
 SUMMARY="X Protocol C-Language Bindings"
