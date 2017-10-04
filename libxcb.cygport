@@ -1,6 +1,6 @@
 NAME="libxcb"
 VERSION=1.12
-RELEASE=1
+RELEASE=2
 CATEGORY="Libs"
 SUMMARY="X Protocol C-Language Bindings"
 DESCRIPTION="libxcb provides an interface to the X Window System protocol,
@@ -20,7 +20,7 @@ libxcb_devel_CONTENTS=	# defined later
 libxcb_doc_SUMMARY="${SUMMARY} (API documentation)"
 libxcb_doc_CONTENTS="usr/share/doc/${NAME}/*/ usr/share/man/man3/"
 
-for prot_abi in composite:0 damage:0 dpms:0 glx:0 randr:0 record:0 render:0 \
+for prot_abi in composite:0 damage:0 dpms:0 dri2:_0 glx:0 randr:0 record:0 render:0 \
                 res:0 screensaver:0 shape:0 shm:0 sync:1 xfixes:0 xinerama:0 \
                 xinput:0 xkb:1 xtest:0 present:0
 do
@@ -34,7 +34,7 @@ do
 
 	PKG_NAMES+=" libxcb-${prot}${abi} libxcb-${prot}-devel"
 	declare libxcb_${prot}${abi}_SUMMARY="${SUMMARY} (${prot} runtime)"
-	declare libxcb_${prot}${abi}_CONTENTS="usr/bin/cygxcb-${prot}-${abi}.dll"
+	declare libxcb_${prot}${abi}_CONTENTS="usr/bin/cygxcb-${prot}-${abi#_}.dll"
 	declare libxcb_${prot}_devel_SUMMARY="${SUMMARY} (${prot} development)"
 	declare libxcb_${prot}_devel_CONTENTS="usr/include/xcb/${prot}.h
 	                                       usr/lib/libxcb-${prot}.*
@@ -44,7 +44,7 @@ do
 	CYGCONF_ARGS+=" --enable-${confopt}"
 done
 
-for obsprot in dri2 dri3 selinux xf86dri xevie xprint xv xvmc
+for obsprot in dri3 selinux xf86dri xevie xprint xv xvmc
 do
 	case ${obsprot} in
 		xf86dri)  confopt="xfree86-dri" ;;
